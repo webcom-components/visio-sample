@@ -23,8 +23,8 @@ export default class Root extends Component {
 	render() {
 		function getToolsIfDev() {
 			if (typeof __DEVTOOLS__ !== 'undefined' && __DEVTOOLS__) {
-				//let DevTools = require('./DevTools');
-				//return <DevTools />;
+				let DevTools = require('./DevTools');
+				return <DevTools />;
 			}
 		}
 
