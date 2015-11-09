@@ -11,7 +11,10 @@ import {
 	ROOM_LEFT,
 	PARTICIPANT_JOIN,
 	PARTICIPANT_LEFT,
-	VIDEO_FOCUS
+	VIDEO_FOCUS,
+	TOGGLE_CHAT,
+	MESSAGE_RECEIVED,
+	MESSAGE_SENT
 } from '../actions/room';
 
 
@@ -26,6 +29,8 @@ export default function room(state = initialState, action = {}) {
 			name: action.data.name,
 			owner: action.data.owner,
 			focus: 'localVideo',
+			chatMinimized: true,
+			messages: [],
 			users: []
 		};
 	case PARTICIPANT_JOIN:
@@ -143,6 +148,21 @@ export default function room(state = initialState, action = {}) {
 		return {
 			...state,
 			focus: action.data
+		};
+	case TOGGLE_CHAT:
+		return {
+			...state,
+			chatMinimized: !state.chatMinimized
+		};
+	case MESSAGE_RECEIVED:
+		return {
+			...state,
+			messages: [
+				...state.messages,
+				{
+					...action.data
+				}
+			]
 		};
 	default:
 		return state;

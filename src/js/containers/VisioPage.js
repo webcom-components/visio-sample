@@ -10,7 +10,13 @@ import ReactDom from 'react-dom';
 import AddPopin from '../components/AddPopin';
 import TopButtons from '../components/topButtons';
 import CmdButtons from '../components/cmdButtons';
+import Chat from '../components/chat';
+import {connectReduxForm} from 'redux-form';
 
+const ChatForm = connectReduxForm({
+	form: 'chat',            // the name of your form and the key to where your form's state will be mounted
+	fields: ['message'] // a list of all your fields in your form
+})(Chat);
 
 class Visio extends Component {
 	static propTypes = {
@@ -139,6 +145,12 @@ class Visio extends Component {
 							toggleAudio={this.props.toggleAudio} />
 				<video className={this.getVideoClass('localVideo')} ref="localVideo" onClick={this.focus.bind(this, 'localVideo')}></video>
 				{this.getOtherVideos.bind(this)()}
+				<ChatForm 	username={this.props.username}
+							roomname={this.props.room.name}
+							sendMessage={this.props.sendMessage}
+							toggleChat={this.props.toggleChat}
+							minimized={this.props.room.chatMinimized}
+							messages={this.props.room.messages} />
 			</div>
 		);
 	}

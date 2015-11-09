@@ -6,7 +6,7 @@ html {
 
 body {
     background-color: #eee;
-    font-family: Arial,sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     width: 100%;
     height: 100%;
 }
@@ -29,11 +29,13 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
+    object-fit: cover;
 }
 
 .bigRemoteVideo video {
     object-fit: cover;
-    width:100%
+    width:100%;
+    height: 100%;
 }
 
 .videoContainer {
@@ -81,6 +83,11 @@ body {
     color: #CCC;
     width: 100%;
     text-align: center;
+}
+
+.bigRemoteVideo .videoName {
+    top: 0;
+    bottom: auto;
 }
 
 .partipantsPanel {

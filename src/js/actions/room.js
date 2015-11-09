@@ -2,7 +2,7 @@
 
 import history from '../history';
 import { getRoom, deleteRoom } from '../utils/com';
-
+import {reset} from 'redux-form';
 
 export const ROOM_ENTER = 'ROOM_ENTER';
 export const ROOM_LEFT = 'ROOM_LEFT';
@@ -19,6 +19,9 @@ export const ROOM_CLOSED = 'ROOM_CLOSED';
 export const PARTICIPANT_JOIN = 'PARTICIPANT_JOIN';
 export const PARTICIPANT_LEFT = 'PARTICIPANT_LEFT';
 export const VIDEO_FOCUS = 'VIDEO_FOCUS';
+export const TOGGLE_CHAT = 'TOGGLE_CHAT';
+export const MESSAGE_RECEIVED = 'MESSAGE_RECEIVED';
+export const MESSAGE_SENT = 'MESSAGE_SENT';
 
 
 export function subscribeStream(username, roomname, streamData, videoTab) {
@@ -31,9 +34,6 @@ export function subscribeStream(username, roomname, streamData, videoTab) {
 			return;
 		}
 
-		//if (_from === username) {
-		//	return;
-		//}
 
 		room.subscribeToStream(streamData, videoTab);
 		dispatch({
@@ -108,6 +108,37 @@ export function listenToJoinAndLeave(username, roomname) {
 	};
 }
 
+export function sendMessage(username, roomname, message) {
+	return dispatch => {
+		const room = getRoom(username, roomname);
+
+		room.sendInstantMessage(message);
+		dispatch(reset('chat'));
+
+		dispatch({
+			type: MESSAGE_SENT,
+			data: message
+		});
+	}
+}
+
+export function listenMessages(username, roomname) {
+	return dispatch => {
+		const room = getRoom(username, roomname);
+
+		room.on('instantMessage', data => {
+			dispatch({
+				type: MESSAGE_RECEIVED,
+				data: {
+					username: data.from,
+					message: data.message,
+					ts: data.timestamp
+				}
+			});
+		});
+	};
+}
+
 export function enterRoom(roomname, owner, username) {
 	return dispatch => {
 		dispatch({
@@ -118,7 +149,8 @@ export function enterRoom(roomname, owner, username) {
 			}
 		});
 
-		//dispatch(listenToStreams(username, roomname));
+		dispatch(listenMessages(username, roomname));
+
 		dispatch(listenToJoinAndLeave(username, roomname));
 	};
 }
@@ -230,6 +262,12 @@ export function focusVideo(ref) {
 	return {
 		type: VIDEO_FOCUS,
 		data: ref
+	};
+}
+
+export function toggleChat() {
+	return {
+		type: TOGGLE_CHAT
 	};
 }
 
