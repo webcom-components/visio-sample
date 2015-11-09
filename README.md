@@ -33,7 +33,7 @@ gulp help
 
 To only build visio sample in ./dist folder
 
-Namespace 'webrtc' is on https://webcom.orange.com
+*visiowebrtc* is on https://webcom.orange.com
 
 ```bash
 gulp build
