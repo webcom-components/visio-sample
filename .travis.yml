@@ -7,4 +7,3 @@ addons:
   artifacts:
     paths:
     - $(ls ./dist/* | tr "\n" ":")
-  s3_region: "us-west-2"
