@@ -3,8 +3,6 @@ languages:
 ratings:
   paths:
   - "**.js"
-exclude_paths:
-- vendor/**/*
 engines:
   eslint:
     enabled: true
@@ -12,3 +10,5 @@ engines:
     enabled: true
   fixme:
     enabled: true
+exclude_paths:
+- vendor/*
