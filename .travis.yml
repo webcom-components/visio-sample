@@ -7,4 +7,4 @@ addons:
   artifacts:
     paths:
     - $(ls ./dist/* | tr "\n" ":")
-  s3_region: "eu-west-1"
+  s3_region: "ireland"
