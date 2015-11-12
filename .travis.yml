@@ -6,4 +6,4 @@ script:
   - gulp build
 addons:
   artifacts: true
-  s3_region: "Ireland"
+  s3_region: "us-west-2"
