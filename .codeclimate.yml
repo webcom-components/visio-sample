@@ -11,4 +11,4 @@ engines:
   fixme:
     enabled: true
 exclude_paths:
-- vendor/*
+- "vendor/**/*"
