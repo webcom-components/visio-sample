@@ -1,0 +1,14 @@
+languages:
+  JavaScript: true
+ratings:
+  paths:
+  - "**.js"
+exclude_paths:
+- vendor/**/*
+engine:
+  eslint:
+    enabled: true
+  csslint:
+    enabled: true
+  fixme:
+    enabled: true
