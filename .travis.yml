@@ -1,9 +1,10 @@
 language: node_js
 node_js:
   - "4"
-  - "5"
 script:
   - gulp build
 addons:
-  artifacts: true
+  artifacts:
+    paths:
+    - $(ls ./dist/* | tr "\n" ":")
   s3_region: "eu-west-1"
