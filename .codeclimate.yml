@@ -5,7 +5,7 @@ ratings:
   - "**.js"
 exclude_paths:
 - vendor/**/*
-engine:
+engines:
   eslint:
     enabled: true
   csslint:
