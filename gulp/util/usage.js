@@ -1,22 +1,15 @@
-/* usage
- ------------
- Gulp tasks documentation
- */
-"use strict";
-
-var gulp	= require('gulp'),
-	_		= require('lodash'),
+const _		= require('lodash'),
 	gutil	= require('gulp-util');
 
 
-var tasks = [],
+const tasks = [],
 	color = function(c, s){
 		return gutil.colors[c](s);
 	},
 	log = console.log,
-	maxLength = function(l){
-		var ml = 0;
-		_.forEach(l, function(n){
+	maxLength = l => {
+		let ml = 0;
+		_.forEach(l, n => {
 			ml = Math.max(ml, n.length);
 		});
 		return ml;
@@ -26,11 +19,11 @@ var tasks = [],
 	},
 	list = function(){
 		// eval lengths for format
-		var allFlags = [],
+		let allFlags = [],
 			allTasks = [];
-		_.forEach(tasks, function(task){
+		_.forEach(tasks, task => {
 			if(task[2]){
-				_.forIn(task[2], function(d, f){
+				_.forIn(task[2], (d, f) => {
 					allFlags.push(f);
 				});
 			}
@@ -39,20 +32,20 @@ var tasks = [],
 		allFlags = maxLength(allFlags);
 		allTasks = maxLength(allTasks);
 
-		_.forEach(tasks, function(task){
+		_.forEach(tasks, task => {
 			log(color('blue', format(task[0], allTasks)));
-			log('  ' + color('white', task[1]));
+			log(`  ${color('white', task[1])}`);
 			if(task[2]) {
-				_.forIn(task[2], function(desc, flag){
-					log('    --' + format(flag, allFlags) + '\t- ' + desc);
+				_.forIn(task[2], (desc, flag) => {
+					log(`	--${format(flag, allFlags)}\t- ${desc}`);
 				});
 			}
 		});
 	};
 
-module.exports = {
-	add: function(/*String*/taskName, /*String*/taskDescription, /*Object?*/taskOptions){
+export default {
+	add(/*String*/taskName, /*String*/taskDescription, /*Object?*/taskOptions){
 		tasks.push([taskName, taskDescription, taskOptions]);
 	},
-	list: list
+	list
 };

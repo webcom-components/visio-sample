@@ -1,6 +1,6 @@
 import minimist	from 'minimist';
 import _ from 'lodash';
 
-module.exports = function(knownOptions){
+export default function(knownOptions){
 	return minimist(_.slice(process.argv, 2), knownOptions);
 };
