@@ -16,6 +16,7 @@ Implemented with :
 Signalisation is stored on a namespace named *visiowebrtc*. It can be changed.
 
 [![Build Status](https://travis-ci.org/webcom-components/visio-sample.svg?branch=master)](https://travis-ci.org/webcom-components/visio-sample)
+[![Code Climate](https://codeclimate.com/github/webcom-components/visio-sample/badges/gpa.svg)](https://codeclimate.com/github/webcom-components/visio-sample)
 
 ## Prerequisites
 
