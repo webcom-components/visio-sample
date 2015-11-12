@@ -4,3 +4,6 @@ node_js:
   - "5"
 script:
   - gulp build
+addons:
+  artifacts: true
+  s3_region: "Ireland"
