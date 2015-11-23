@@ -8,6 +8,10 @@ function getUrl() {
 	return __WEBCOM_SERVER__;
 }
 
+export function getNamespaceRef() {
+	return new Webcom(`${getUrl()}/base/${__NAMESPACE__}`);
+}
+
 export function initComSDK(username) {
 	com = new ComSDK(`${getUrl()}/base/${__NAMESPACE__}`);
 	reach = com.Reach(username);

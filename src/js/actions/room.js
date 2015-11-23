@@ -1,7 +1,7 @@
 /* global ComSDK */
 
 import history from '../history';
-import { getRoom, deleteRoom } from '../utils/com';
+import { getRoom, deleteRoom, getNamespaceRef } from '../utils/com';
 import {reset} from 'redux-form';
 
 export const ROOM_ENTER = 'ROOM_ENTER';
@@ -149,9 +149,18 @@ export function enterRoom(roomname, owner, username) {
 			}
 		});
 
+		let ref = getNamespaceRef().child(`reach/userList/${username}`);
+
+		ref.update({
+			room: roomname
+		});
+		ref.child('room').onDisconnect().remove();
+
 		dispatch(listenMessages(username, roomname));
 
 		dispatch(listenToJoinAndLeave(username, roomname));
+
+		history.replaceState(null, '/visio');
 	};
 }
 
@@ -186,7 +195,6 @@ export function quitRoom(username, roomObj) {
 
 		const room = getRoom(username, roomname);
 
-
 		(users || []).forEach((u) => {
 			if (u.streamData) {
 				room.unSubscribeFromStream(u.streamId);
@@ -205,6 +213,8 @@ export function quitRoom(username, roomObj) {
 
 		room.close(false);
 		deleteRoom(roomname);
+
+		getNamespaceRef().child(`reach/userList/${username}/room`).remove();
 
 		dispatch({
 			type: ROOM_LEFT,
@@ -281,6 +291,7 @@ export function closeRoom(username, roomObj) {
 
 		room.close(true);
 		closeRoom(roomname);
+		getNamespaceRef().child(`reach/userList/${username}/room`).remove();
 
 		dispatch({
 			type: ROOM_CLOSED

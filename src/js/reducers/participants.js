@@ -2,6 +2,7 @@ import {
 	LOGOUT,
 	ADD_PARTICIPANT,
 	UPDATE_PARTICIPANT,
+	UPDATE_PARTICIPANT_ROOM,
 	INVITATION_SENT,
 	INVITATION_ANSWERED,
 	INVITATION_ARCHIVED
@@ -23,6 +24,12 @@ export default function participants(state = initialState, action = {}) {
 		return state.map(p => {
 			return p.username === action.data.username ?
 				Object.assign({}, p, { info: action.data.info }) :
+				p;
+		});
+	case UPDATE_PARTICIPANT_ROOM:
+		return state.map(p => {
+			return p.username === action.data.username ?
+				Object.assign({}, p, { room: action.data.roomname }) :
 				p;
 		});
 	case INVITATION_SENT:

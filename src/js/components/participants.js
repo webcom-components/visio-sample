@@ -8,7 +8,8 @@ export default class Participants extends Component {
 		username: PropTypes.string.isRequired,
 		logged: PropTypes.bool.isRequired,
 		invitSent: PropTypes.bool.isRequired,
-		sendInvitation: PropTypes.func.isRequired
+		sendInvitation: PropTypes.func.isRequired,
+		enterRoom: PropTypes.func.isRequired
 	}
 
 	logout() {
@@ -22,10 +23,21 @@ export default class Participants extends Component {
 	componentDidMount() {
 	}
 
+	clickOnParticipant(p) {
+		if (p.info.room) {
+			this.props.enterRoom(p.info.room, p.username, this.props.username)
+		} else {
+			this.props.sendInvitation(
+				this.props.username,
+				p.username, undefined);
+		}
+	}
+
 	render() {
 
 		const createParticipant = (p) => {
-			const status = p.info.connectedList ? 'list-group-item-success' : 'list-group-item-danger';
+			//const status = p.info.connectedList ? 'list-group-item-success' : 'list-group-item-danger';
+			const status = 'list-group-item-success';
 
 			if (this.props.username === p.username) {
 				return;
@@ -35,26 +47,25 @@ export default class Participants extends Component {
 				disabled={!p.info.connectedList}
 				className={`list-group-item ${status}`}
 				key={`user_${p.username}`}
-				onClick={this.props.sendInvitation.bind(this,
-					this.props.username,
-					p.username,
-					`${this.props.username}-${p.username}`)}>
-				{p.username + (p.invitSent ? ' (invit sent)' : '') }
+				onClick={this.clickOnParticipant.bind(this, p)}>
+				{p.username +
+				(p.info.room ? ` - click to join his room` : '' ) +
+				(p.invitSent ? ' (invit sent)' : '') }
 			</button>;
 		}
 
 		const getArchiveInvitationBtn = () => {
-			//if (this.props.invitSent) {
-				return <input 	className="btn btn-default"
-								type="button"
-								value="Archive invitation"
-								style={{marginBottom:'1em'}}
-								onClick={this.archiveInvitation.bind(this)}/>;
-			//}
+			return <input 	className="btn btn-default"
+							type="button"
+							value="Archive invitation"
+							style={{marginBottom:'1em'}}
+							onClick={this.archiveInvitation.bind(this)}/>;
 		}
 
 		const getContent = () => {
-			if (this.props.participants.length <= 1) {
+			const list = this.props.participants.filter(p => p.info.connectedList);
+
+			if (list.length <= 1) {
 				return (
 					<div>No participants registered</div>
 				);
@@ -64,9 +75,9 @@ export default class Participants extends Component {
 						<h2>Available participants</h2>
 						{getArchiveInvitationBtn.bind(this)()}
 						<div className="list-group" id="participantList" style={{maxHeight:'288px', overflow:'auto'}}>
-											{this.props.participants.map((p) => {
-												return createParticipant.bind(this)(p);
-											})}
+							{list.map((p) => {
+								return createParticipant.bind(this)(p);
+							})}
 						</div>
 					</div>
 				);

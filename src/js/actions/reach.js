@@ -1,9 +1,11 @@
 import history from '../history';
-import {initComSDK, getReach } from '../utils/com';
+import {initComSDK, getReach, getNamespaceRef } from '../utils/com';
 import { enterRoom } from './room';
+import { guid } from '../utils';
 
 export const ADD_PARTICIPANT = 'ADD_PARTICIPANT';
 export const UPDATE_PARTICIPANT = 'UPDATE_PARTICIPANT';
+export const UPDATE_PARTICIPANT_ROOM = 'UPDATE_PARTICIPANT_ROOM';
 export const LOGGED = 'LOGGED';
 export const LOGOUT = 'LOGOUT';
 export const RECEIVE_INVITATION = 'RECEIVE_INVITATION';
@@ -93,6 +95,15 @@ export function login(username) {
 
 		reach.on('userAdded', (data) => {
 			const username = Object.keys(data)[0];
+			getNamespaceRef().child(`reach/userList/${username}/room`).on('value', (snap) => {
+				dispatch({
+					type: UPDATE_PARTICIPANT_ROOM,
+					data: {
+						username,
+						roomname: snap.val() || undefined
+					}
+				});
+			});
 			dispatch(addParticipant(username, data[username]));
 		});
 
@@ -107,7 +118,7 @@ export function login(username) {
 	};
 }
 
-export function sendInvitation(me, invitee, roomname) {
+export function sendInvitation(me, invitee, roomname = guid()) {
 	return dispatch => {
 		const reach = getReach();
 
@@ -115,9 +126,6 @@ export function sendInvitation(me, invitee, roomname) {
 
 		reach.inviteToRoom(roomname, [invitee], 'test', (rId, invitee, status, info) => {
 			dispatch(invitationAnswered(status === 'ACCEPTED', rId, me, me));
-			if (status === 'ACCEPTED') {
-				history.replaceState(null, '/visio');
-			}
 		});
 	};
 }
@@ -132,7 +140,6 @@ export function respondToInvitation(username, accept, data, reason) {
 			const owner = data[invitname].from;
 			reach.acceptInvitation(data);
 			dispatch(invitationAnswered(accept,roomname, owner, username));
-			history.replaceState(null, '/visio');
 		}
 		else {
 			reach.rejectInvitation(data, reason);

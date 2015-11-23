@@ -18,3 +18,21 @@ export function toggleFullscreen() {
 		}
 	}
 }
+
+/**
+ * Generate four number between 0 to 9
+ * @returns {string}
+ */
+function s4() {
+	return Math.floor((1 + Math.random()) * 0x10000)
+		.toString(16)
+		.substring(1);
+}
+
+/**
+ * Return a guid
+ * @returns {string}
+ */
+export function guid() {
+	return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
+}

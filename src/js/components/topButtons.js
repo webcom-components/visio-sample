@@ -4,7 +4,7 @@ import history from '../history';
 export default class TopButtons extends Component {
 	static propTypes = {
 		username: PropTypes.string.isRequired,
-		room: PropTypes.string,
+		room: PropTypes.object,
 		quitRoom : PropTypes.func.isRequired,
 		closeRoom : PropTypes.func.isRequired
 	}

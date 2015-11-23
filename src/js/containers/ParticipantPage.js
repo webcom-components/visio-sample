@@ -2,6 +2,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Participants from '../components/participants';
 import * as reachActions from '../actions/reach';
+import * as roomActions from '../actions/room';
 
 function mapStateToProps(state) {
 	return {
@@ -13,7 +14,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators(reachActions, dispatch);
+	return bindActionCreators({ ...roomActions, ...reachActions}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Participants);
