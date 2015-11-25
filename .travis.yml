@@ -1,8 +1,7 @@
 language: node_js
-node_js:
-  - "4"
 script:
   - gulp build
+  - npm test
 addons:
   artifacts:
     paths:
