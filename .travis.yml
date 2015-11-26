@@ -1,7 +1,9 @@
 language: node_js
+node_js:
+  - "5"
 script:
   - gulp build
-  - npm test
+  - npm run test:coverage
 addons:
   artifacts:
     paths:
