@@ -40,8 +40,10 @@ export default function participants(state = initialState, action = {}) {
 		});
 	case INVITATION_ANSWERED:
 		return state.map(p => {
-			if (p.invitSent) {
-				return Object.assign({}, p, {invitSent: undefined});
+			if (p.username === action.data.username) {
+				const newP = Object.assign({}, p);
+				delete newP.invitSent;
+				return newP;
 			}
 			return p;
 		});
