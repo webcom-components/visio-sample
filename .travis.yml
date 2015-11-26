@@ -8,3 +8,4 @@ addons:
   artifacts:
     paths:
     - $(ls ./dist/* | tr "\n" ":")
+    - $(find coverage | tr "\n" ":")
