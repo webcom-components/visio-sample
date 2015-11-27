@@ -1,5 +1,9 @@
 # Samples with Webcom and WebRTC
 
+[![Build Status](https://travis-ci.org/webcom-components/visio-sample.svg?branch=master)](https://travis-ci.org/webcom-components/visio-sample)
+[![Code Climate](https://codeclimate.com/github/webcom-components/visio-sample/badges/gpa.svg)](https://codeclimate.com/github/webcom-components/visio-sample)
+[![devDependency Status](https://david-dm.org/webcom-components/visio-sample/dev-status.svg)](https://david-dm.org/webcom-components/visio-sample#info=devDependencies)
+
 Web application with 
 - Share Audio/video 
 - presence
@@ -14,9 +18,6 @@ Implemented with :
 - Packaging with [Webpack](http://webpack.github.io/)
 
 Signalisation is stored on a namespace named *visiowebrtc*. It can be changed.
-
-[![Build Status](https://travis-ci.org/webcom-components/visio-sample.svg?branch=master)](https://travis-ci.org/webcom-components/visio-sample)
-[![Code Climate](https://codeclimate.com/github/webcom-components/visio-sample/badges/gpa.svg)](https://codeclimate.com/github/webcom-components/visio-sample)
 
 ## Prerequisites
 
