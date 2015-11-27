@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/webcom-components/visio-sample.svg?branch=master)](https://travis-ci.org/webcom-components/visio-sample)
 [![Code Climate](https://codeclimate.com/github/webcom-components/visio-sample/badges/gpa.svg)](https://codeclimate.com/github/webcom-components/visio-sample)
+[![Test Coverage](https://codeclimate.com/github/webcom-components/visio-sample/badges/coverage.svg)](https://codeclimate.com/github/webcom-components/visio-sample/coverage)
 [![devDependency Status](https://david-dm.org/webcom-components/visio-sample/dev-status.svg)](https://david-dm.org/webcom-components/visio-sample#info=devDependencies)
 
 Web application with 
