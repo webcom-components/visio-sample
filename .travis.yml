@@ -5,7 +5,11 @@ script:
   - gulp build
   - npm run test:coverage
 addons:
+  code_climate:
+    repo_token: 1a79ec9a29e7c71a983544e22aae928c2a2f6d2a70f2e7429bec268a7003ec25
   artifacts:
     paths:
     - $(ls ./dist/* | tr "\n" ":")
     - $(find coverage | tr "\n" ":")
+after_script:
+  - codeclimate-test-reporter < coverage/lcov.info
