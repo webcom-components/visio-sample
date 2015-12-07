@@ -78,3 +78,7 @@ gulp dev
 Parameters :
 - *--namespace* : namespace for signalisation. Default is *visiowebrtc*
 - *--server* : webcom server url. Default is *https://webcom.orange.com*
+
+## License
+
+Code released under the [MIT license](https://github.com/webcom-components/visio-sample/blob/master/LICENSE).
