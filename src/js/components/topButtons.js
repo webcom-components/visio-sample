@@ -5,8 +5,7 @@ export default class TopButtons extends Component {
 	static propTypes = {
 		username: PropTypes.string.isRequired,
 		room: PropTypes.object,
-		quitRoom : PropTypes.func.isRequired,
-		closeRoom : PropTypes.func.isRequired
+		quitRoom : PropTypes.func.isRequired
 	}
 
 	addParticipantToRoom() {
@@ -19,12 +18,6 @@ export default class TopButtons extends Component {
 			this.props.room);
 	}
 
-	close() {
-		this.props.closeRoom(
-			this.props.username,
-			this.props.room);
-	}
-
 	render() {
 		return (
 			<div className='topButtons'>
@@ -33,12 +26,6 @@ export default class TopButtons extends Component {
 					onClick={this.addParticipantToRoom.bind(this)}
 					style={{marginRight:'1em'}}>
 					<span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
-				</button>
-				<button type='button'
-					className='btn btn-default'
-					onClick={this.close.bind(this)}
-					style={{marginRight:'1em'}}>
-					close room
 				</button>
 				<button type='button' className='btn btn-default' onClick={this.exit.bind(this)}>
 					<span className="glyphicon glyphicon-remove" aria-hidden="true"></span>

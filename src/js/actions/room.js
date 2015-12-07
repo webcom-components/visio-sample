@@ -15,7 +15,6 @@ export const VIDEO_MUTED = 'VIDEO_MUTED';
 export const VIDEO_UNMUTED = 'VIDEO_UNMUTED';
 export const AUDIO_MUTED = 'AUDIO_MUTED';
 export const AUDIO_UNMUTED = 'AUDIO_UNMUTED';
-export const ROOM_CLOSED = 'ROOM_CLOSED';
 export const PARTICIPANT_JOIN = 'PARTICIPANT_JOIN';
 export const PARTICIPANT_LEFT = 'PARTICIPANT_LEFT';
 export const VIDEO_FOCUS = 'VIDEO_FOCUS';
@@ -278,30 +277,5 @@ export function focusVideo(ref) {
 export function toggleChat() {
 	return {
 		type: TOGGLE_CHAT
-	};
-}
-
-export function closeRoom(username, roomObj) {
-	return dispatch => {
-		const {
-			name: roomname
-			} = roomObj;
-
-		const room = getRoom(username, roomname);
-
-		room.close(true);
-		closeRoom(roomname);
-		getNamespaceRef().child(`reach/userList/${username}/room`).remove();
-
-		dispatch({
-			type: ROOM_CLOSED
-		});
-
-		dispatch({
-			type: ROOM_LEFT,
-			data: {...roomObj }
-		});
-
-		history.replaceState(null, '/participants');
 	};
 }

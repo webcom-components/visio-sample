@@ -137,7 +137,6 @@ class Visio extends Component {
 				})}
 				<TopButtons username={this.props.username}
 							room={this.props.room}
-							closeRoom={this.props.closeRoom}
 							quitRoom={this.props.quitRoom} />
 				<CmdButtons username={this.props.username}
 							room={this.props.room}
