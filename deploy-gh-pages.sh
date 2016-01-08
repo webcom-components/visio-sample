@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Ensure script exec in project root
-cd "`dirname \"$0\"`" && cd ..
-
 cd dist
 git init
 git config user.name "webcomOps"
