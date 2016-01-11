@@ -58,6 +58,7 @@
     "style-loader": "^0.12.4",
     "url-loader": "^0.5.6",
     "webcom": "^0.2.2",
+    "webcom-reach": "^1.0.4",
     "webpack": "^1.12.2",
     "webpack-dev-middleware": "^1.2.0",
     "webpack-dev-server": "^1.12.0",

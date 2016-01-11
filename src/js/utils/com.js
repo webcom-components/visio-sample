@@ -1,4 +1,4 @@
-/* global ComSDK, __WEBCOM_SERVER__, __NAMESPACE__, __DEVTOOLS__ */
+/* global Reach, __WEBCOM_SERVER__, __NAMESPACE__, __DEVTOOLS__ */
 
 let com,
 	reach;
@@ -13,7 +13,7 @@ export function getNamespaceRef() {
 }
 
 export function initComSDK(username) {
-	com = new ComSDK(`${getUrl()}/base/${__NAMESPACE__}`);
+	com = new Reach(`${getUrl()}/base/${__NAMESPACE__}`);
 	reach = com.Reach(username);
 }
 

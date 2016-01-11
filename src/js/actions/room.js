@@ -1,4 +1,4 @@
-/* global ComSDK */
+/* global Reach */
 
 import history from '../history';
 import { getRoom, deleteRoom, getNamespaceRef } from '../utils/com';
@@ -170,7 +170,7 @@ export function publishStream(username, roomname, videoTag) {
 
 		room.publishStream(streamId,
 			videoTag,
-			ComSDK.actions.ACTION_TYPE_AUDIO_VIDEO,
+			Reach.actions.ACTION_TYPE_AUDIO_VIDEO,
 			(mediaStream) => {
 				dispatch({
 					type: STREAM_PUBLISHED,

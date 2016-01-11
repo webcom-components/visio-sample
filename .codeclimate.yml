@@ -10,7 +10,3 @@ engines:
     enabled: true
   fixme:
     enabled: true
-exclude_paths:
-- "vendor/**/*"
-- "vendor/comsdk.js"
-- "vendor/comsdk-debug.js"

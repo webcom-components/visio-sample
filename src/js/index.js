@@ -1,11 +1,11 @@
-/* global ComSDK, $ */
+/* global Reach, $ */
 
 require('babel/polyfill');
 require('!style!css!bootstrap.css')
 require('bootstrap');
 require('!style!css!../style.css');
 require('script!webcom');
-require('script!comsdk');
+require('script!webcom-reach');
 
 import React from 'react';
 import ReactDom from 'react-dom';

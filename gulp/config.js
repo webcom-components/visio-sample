@@ -33,7 +33,7 @@ function getDefaultWebpackConfig() {
 			alias: {
 				'bootstrap.css':  '../../node_modules/bootstrap/dist/css/bootstrap.css',
 				'webcom': '../../node_modules/webcom/webcom.js',
-				'comsdk': '../../vendor/comsdk-debug.js'
+				'webcom-reach': '../../node_modules/webcom-reach/dist/reach-debug.js'
 			}
 		},
 		externals: [
@@ -59,7 +59,8 @@ const config = {
 		config.plugins.push(new webpack.ProvidePlugin({
 			'jQuery': 'jquery',
 			'$': 'jquery',
-			'webcom': 'webcom'
+			'webcom': 'webcom',
+			'webcom-reach': 'webcom-reach'
 		}));
 
 		if (options.wsServerUrl) {
@@ -80,7 +81,7 @@ const config = {
 				new webpack.optimize.UglifyJsPlugin({minimize: true})
 			]);
 
-			config.resolve.alias.comsdk = '../../vendor/comsdk.js';
+			config.resolve.alias['webcom-reach'] = '../../node_modules/webcom-reach/dist/reach.js';
 		}
 
 		if (options.debug) {
