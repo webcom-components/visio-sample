@@ -31,7 +31,7 @@ npm install
 ## Help on tasks
 
 ```bash
-gulp help
+npm run
 ```
 
 ## Build
@@ -41,43 +41,52 @@ To only build visio sample in ./dist folder
 *visiowebrtc* is on https://webcom.orange.com
 
 ```bash
-gulp build
+npm run build
 ```
 
-Parameters :
-- *--namespace* : namespace for signalisation. Default is *visiowebrtc*
-- *--server* : webcom server url. Default is *https://webcom.orange.com*
-
+Optional env variables :
+- NAMESPACE : namespace for signalisation. Default is *visiowebrtc*
+- WS_SERVER : webcom server url. Default is *https://webcom.orange.com*
+- PUBLIC_PATH : relative path of application. Default is /
+	
 ## Build and watch out visio sample
 
 To build and launch a web server on port 8080
 
 ```bash
-gulp serve
+npm run serve
 ```
 
-Parameters :
-- *--namespace* : namespace for signalisation. Default is *visiowebrtc*
-- *--server* : webcom server url. Default is *https://webcom.orange.com*
+Optional env variables :
+- NAMESPACE : namespace for signalisation. Default is *visiowebrtc*
+- WS_SERVER : webcom server url. Default is *https://webcom.orange.com*
+- PUBLIC_PATH : relative path of application. Default is /
+
 
 ## Dev server 
 
 To build and launch a dev web server on port 8080
 
 ```bash
-gulp
+npm start
 ```
 
-or
+Optional env variables :
+- NAMESPACE : namespace for signalisation. Default is *visiowebrtc*
+- WS_SERVER : webcom server url. Default is *https://webcom.orange.com*
+- PUBLIC_PATH : relative path of application. Default is /
+
+## Test
 
 ```bash
-gulp dev
+npm test
 ```
 
+With coverage 
 
-Parameters :
-- *--namespace* : namespace for signalisation. Default is *visiowebrtc*
-- *--server* : webcom server url. Default is *https://webcom.orange.com*
+```bash
+npm run test:coverage
+```
 
 ## License
 
