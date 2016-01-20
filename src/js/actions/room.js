@@ -159,7 +159,7 @@ export function enterRoom(roomname, owner, username) {
 
 		dispatch(listenToJoinAndLeave(username, roomname));
 
-		history.replaceState(null, '/visio');
+		history.push('/visio');
 	};
 }
 
@@ -208,7 +208,7 @@ export function quitRoom(username, roomObj) {
 		});
 
 
-		history.replaceState(null, '/participants');
+		history.push('/participants');
 
 		room.close(false);
 		deleteRoom(roomname);

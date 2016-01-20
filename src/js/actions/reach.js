@@ -77,7 +77,7 @@ export function invitationAnswered(accept, roomname, owner, username) {
 export function logout() {
 	const reach = getReach();
 	reach.close();
-	history.replaceState(null, '/');
+	history.push('/');
 	return {
 		type: LOGOUT
 	};
@@ -87,7 +87,7 @@ export function login(username) {
 	return dispatch => {
 		initComSDK(username);
 
-		history.replaceState(null, '/participants');
+		history.push('/participants');
 
 		dispatch(islogged(username));
 
