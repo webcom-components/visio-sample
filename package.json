@@ -80,5 +80,9 @@
     "ghooks": {
       "commit-msg": "validate-commit-msg"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webcom-components/visio-sample.git"
   }
 }
