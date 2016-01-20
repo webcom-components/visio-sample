@@ -3,10 +3,14 @@
 import React, { Component, PropTypes } from 'react';
 import { Provider } from 'react-redux';
 import configureStore from '../store/configureStore';
-import { ReduxRouter } from 'redux-router';
-//import DevTools from './DevTools';
+import { Router } from 'react-router';
+import history from '../history';
+import DevTools from './DevTools';
+import routes from '../routes';
+import { syncHistory } from 'redux-simple-router';
 
-const store = configureStore();
+const reduxRouterMiddleware = syncHistory(history);
+const store = configureStore(reduxRouterMiddleware);
 
 export default class Root extends Component {
 	static propTypes = {
@@ -14,25 +18,20 @@ export default class Root extends Component {
 
 	static childContextTypes = {
 		store: PropTypes.object
-	}
+	};
 
 	getChildContext() {
 		return { store };
 	}
 
 	render() {
-		function getToolsIfDev() {
-			if (typeof __DEVTOOLS__ !== 'undefined' && __DEVTOOLS__) {
-				let DevTools = require('./DevTools');
-				return <DevTools />;
-			}
-		}
-
 		return (
 			<Provider store={store} key="provider">
 				<div>
-					<ReduxRouter />
-					{getToolsIfDev()}
+					<Router history={history}>
+						{routes}
+					</Router>
+					{__DEVTOOLS__ ? <DevTools /> : undefined}
 				</div>
 			</Provider>
 		);

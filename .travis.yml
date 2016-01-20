@@ -1,9 +1,9 @@
 language: node_js
 node_js:
   - "5"
-script:
-  - gulp build
-  - npm run test:coverage
+cache:
+  directories:
+    - node_modules
 addons:
   code_climate:
     repo_token: 1a79ec9a29e7c71a983544e22aae928c2a2f6d2a70f2e7429bec268a7003ec25
@@ -11,8 +11,20 @@ addons:
     paths:
     - $(ls ./dist/* | tr "\n" ":")
     - $(find coverage | tr "\n" ":")
+before_script:
+  - npm prune
+script:
+  - PUBLIC_PATH=/visio-sample npm run build
+  - npm run test:coverage
 after_script:
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < coverage/lcov.info
 after_success:
+  - 'curl -Lo travis_after_all.py https://git.io/travis_after_all'
+  - python travis_after_all.py
+  - 'export $(cat .to_export_back) &> /dev/null'
+  - npm run semantic-release
   - bash ./deploy-gh-pages.sh
+branches:
+  except:
+    - "/^v\\d+\\.\\d+\\.\\d+$/"

@@ -4,8 +4,6 @@ import { Route, Redirect, IndexRoute } from 'react-router';
 import * as containers from './containers';
 import AddPopin from './components/AddPopin';
 
-let getState;
-
 const {
 	App,
 	LoginPage,
@@ -13,23 +11,19 @@ const {
 	VisioPage
 } = containers;
 
-
-
-export default function({dispatch, getState}) {
-	function requireAuth(nextState, replaceState) {
-		if (nextState.location.action === 'POP') {
-			replaceState(null, '/');
-		}
+function requireAuth(nextState, replace) {
+	if (nextState.location.action === 'POP') {
+		replace(null, '/');
 	}
-
-	return (
-		<Route path='/' component={App}>
-			<IndexRoute component={LoginPage} />
-			<Route path="participants" component={ParticipantPage} onEnter={requireAuth} />
-			<Route path="visio" component={VisioPage} onEnter={requireAuth} >
-				<Route path="add" component={AddPopin} />
- 			</Route>
-			<Redirect from="**" to="/" />
-		</Route>
-	);
 }
+
+export default (
+	<Route path='/' component={App}>
+		<IndexRoute component={LoginPage} />
+		<Route path="participants" component={ParticipantPage} onEnter={requireAuth} />
+		<Route path="visio" component={VisioPage} onEnter={requireAuth} >
+			<Route path="add" component={AddPopin} />
+			</Route>
+		<Redirect from="*" to="/" />
+	</Route>
+);

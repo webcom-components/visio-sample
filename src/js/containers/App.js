@@ -17,7 +17,7 @@ let ConnectedInvitation = connect(state => {
 export default class Main extends Component {
 	static contextTypes = {
 		store: PropTypes.object
-	}
+	};
 
 	render() {
 		return (

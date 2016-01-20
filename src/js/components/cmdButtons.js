@@ -8,7 +8,7 @@ export default class CmdButtons extends Component {
 		username: PropTypes.string.isRequired,
 		toggleVideo: PropTypes.func.isRequired,
 		toggleAudio: PropTypes.func.isRequired
-	}
+	};
 
 	getVideoStyles() {
 		return this.props.room.localVideoMuted ? {color: 'red'} : {} ;

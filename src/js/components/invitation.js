@@ -8,7 +8,7 @@ export default class Invitation extends Component {
 	static propTypes = {
 		invitation: PropTypes.object,
 		username: PropTypes.string
-	}
+	};
 
 	showModal() {
 		const node = $(ReactDom.findDOMNode(this.refs.modal));

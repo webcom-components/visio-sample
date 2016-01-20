@@ -6,7 +6,7 @@ export default class TopButtons extends Component {
 		username: PropTypes.string.isRequired,
 		room: PropTypes.object,
 		quitRoom : PropTypes.func.isRequired
-	}
+	};
 
 	addParticipantToRoom() {
 		history.replaceState(null, '/visio/add');

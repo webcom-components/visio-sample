@@ -10,7 +10,7 @@ export default class Participants extends Component {
 		invitSent: PropTypes.bool.isRequired,
 		sendInvitation: PropTypes.func.isRequired,
 		enterRoom: PropTypes.func.isRequired
-	}
+	};
 
 	logout() {
 		this.props.logout();

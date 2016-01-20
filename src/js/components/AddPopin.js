@@ -15,7 +15,7 @@ export default class AddPopin extends Component {
 		participants: PropTypes.array,
 		room: PropTypes.object,
 		inviteParticipant: PropTypes.func
-	}
+	};
 
 	showModal() {
 		const node = $(ReactDom.findDOMNode(this.refs.modal));

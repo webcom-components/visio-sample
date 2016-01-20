@@ -14,7 +14,7 @@ describe('store', () => {
 			expect(state).to.have.property('room');
 			expect(state).to.have.property('participants');
 			expect(state).to.have.property('form');
-			expect(state).to.have.property('router');
+			expect(state).to.have.property('routing');
 		});
 	});
 });

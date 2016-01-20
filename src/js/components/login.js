@@ -4,7 +4,7 @@ class Login extends Component {
 	static propTypes = {
 		login: PropTypes.func.isRequired,
 		fields: PropTypes.object.isRequired
-	}
+	};
 
 	handleSubmit(e) {
 		e.preventDefault();

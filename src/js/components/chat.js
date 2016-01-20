@@ -12,7 +12,7 @@ export default class Chat extends Component {
 		messages: PropTypes.array.isRequired,
 		toggleChat: PropTypes.func.isRequired,
 		minimized: PropTypes.bool.isRequired
-	}
+	};
 
 	send(e) {
 		if (e.which === 13) {

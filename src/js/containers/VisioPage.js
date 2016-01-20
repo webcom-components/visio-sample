@@ -11,9 +11,9 @@ import AddPopin from '../components/AddPopin';
 import TopButtons from '../components/topButtons';
 import CmdButtons from '../components/cmdButtons';
 import Chat from '../components/chat';
-import {connectReduxForm} from 'redux-form';
+import {reduxForm} from 'redux-form';
 
-const ChatForm = connectReduxForm({
+const ChatForm = reduxForm({
 	form: 'chat',            // the name of your form and the key to where your form's state will be mounted
 	fields: ['message'] // a list of all your fields in your form
 })(Chat);
@@ -24,7 +24,7 @@ class Visio extends Component {
 		username: PropTypes.string.isRequired,
 		room: PropTypes.object,
 		participants: PropTypes.array.isRequired
-	}
+	};
 
 	componentDidMount() {
 		if (!this.props.room) {
