@@ -13,6 +13,7 @@ addons:
     - $(find coverage | tr "\n" ":")
 before_script:
   - npm prune
+  - npm install
 script:
   - PUBLIC_PATH=/visio-sample npm run build
   - npm run test:coverage
