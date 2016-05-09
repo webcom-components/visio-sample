@@ -62,7 +62,9 @@ const config = {
 			__WEBCOM_SERVER__: JSON.stringify(process.env.WS_SERVER || 'https://webcom.orange.com'),
 			__NAMESPACE__: JSON.stringify(process.env.NAMESPACE || 'visiowebrtc'),
 			__DEVTOOLS__: process.env.NODE_ENV !== 'production',
-			NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+			'process.env': {
+				NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+			}
 		})
 	],				
 	progress: true,
