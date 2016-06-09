@@ -70,7 +70,7 @@
     "redux-promise": "^0.5.1",
     "redux-simple-router": "^2.0.4",
     "redux-thunk": "^1.0.3",
-    "webcom": "^0.2.3",
+    "webcom": "^1.0.0",
     "webcom-reach": "^1.0.4"
   },
   "config": {
