@@ -59,7 +59,7 @@ const config = {
 		}),
 		new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
 		new webpack.DefinePlugin({
-			__WEBCOM_SERVER__: JSON.stringify(process.env.WS_SERVER || 'https://webcom.orange.com'),
+			__WEBCOM_SERVER__: JSON.stringify(process.env.WS_SERVER || 'https://io.datasync.orange.com'),
 			__NAMESPACE__: JSON.stringify(process.env.NAMESPACE || 'visiowebrtc'),
 			__DEVTOOLS__: process.env.NODE_ENV !== 'production',
 			'process.env': {
