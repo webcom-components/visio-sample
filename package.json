@@ -71,7 +71,7 @@
     "redux-simple-router": "^2.0.4",
     "redux-thunk": "^1.0.3",
     "webcom": "^1.0.1",
-    "webcom-reach": "^1.0.4"
+    "webcom-reach": "^2.0.0"
   },
   "config": {
     "commitizen": {
