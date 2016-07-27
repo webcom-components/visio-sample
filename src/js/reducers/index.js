@@ -1,14 +1,16 @@
 import { combineReducers } from 'redux';
-import user from './user';
+import current from './current';
 import room from './room';
-import participants from './participants';
+import users from './users';
+import invite from './invite';
 import { reducer as formReducer } from 'redux-form';
 import { routeReducer } from 'redux-simple-router';
 
 const rootReducer = combineReducers({
-	user,
+	current,
+	invite,
+	users,
 	room,
-	participants,
 	form: formReducer,
 	routing: routeReducer
 });

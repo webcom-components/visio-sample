@@ -7,7 +7,7 @@ import AddPopin from './components/AddPopin';
 const {
 	App,
 	LoginPage,
-	ParticipantPage,
+	UsersPage,
 	VisioPage
 } = containers;
 
@@ -20,7 +20,7 @@ function requireAuth(nextState, replace) {
 export default (
 	<Route path='/' component={App}>
 		<IndexRoute component={LoginPage} />
-		<Route path="participants" component={ParticipantPage} onEnter={requireAuth} />
+		<Route path="users" component={UsersPage} onEnter={requireAuth} />
 		<Route path="visio" component={VisioPage} onEnter={requireAuth} >
 			<Route path="add" component={AddPopin} />
 			</Route>

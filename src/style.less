@@ -1,65 +1,100 @@
 @import "~bootstrap/less/bootstrap.less";
+@import "~bootstrap-material-design/less/bootstrap-material-design.less";
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
 
-html {
+@bg-color: #EEE;
+
+.fill {
     width: 100%;
     height: 100%;
-    overflow: hidden;
 }
 
-body {
-    background-color: #eee;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    width: 100%;
-    height: 100%;
+.vertical-center {
+    min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+    min-height: 100vh; /* These two lines are counted as one :-)       */
+    display: flex;
+    align-items: center;
+}
+
+html, body {
+    .fill;
+    overflow: hidden;
+    background-color: @bg-color;
 }
 
 #root {
-    width: 100%;
-    height: 100%;
+  .fill;
+}
+
+video {
+  .fill;
+  object-fit: cover;
 }
 
 .bigLocalVideo {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
+  .fill;
+  position: absolute;
+  .panel {background-color: transparent;}
+  .panel-heading {
+      display: none;
+  }
+  .panel-body {padding: 0;}
 }
+
 
 .bigRemoteVideo {
-    position:absolute;
-    top: 0;
-    left: 0;
+  position:absolute;
+  top: 0;
+  left: 0;
+  .fill;
+  margin-bottom: 0;
+  .panel-heading {
+    position: absolute;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.bigRemoteVideo video {
-    object-fit: cover;
-    width:100%;
-    height: 100%;
+    background-color: rgba(102,102,102,.3) !important;
+    text-align: center;
+  }
 }
 
 .videoContainer {
     z-index: 1;
     position: absolute;
     flex-direction: row;
-    width:100%;
-    height: 100%;
+    .fill;
+    .panel {
+        box-shadow: none;
+        background-color: transparent;
+    }
+    .panel-heading {
+        font-weight: 500;
+    }
+    .panel-body {
+        padding: 0;
+    }
+    .remoteStatus {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        color: #eee;
+        i {display: none;}
+        &.muteAudio i:last-child {display: inline-block}
+        &.muteVideo i:first-child {display: inline-block}
+    }
 }
 
 .smallLocalVideo {
-    position:absolute;
-    bottom: 2em;
-    left: 2em;
-    object-fit: cover;
-    z-index: 2;
-    max-width: 15%;
-    margin-right: 1em;
-    border:1px solid #FF6600;
+  position:absolute;
+  bottom: 2em;
+  left: 2em;
+  z-index: 2;
+  max-width: 15%;
+  &.panel {
+    background-color: transparent;
+    box-shadow: none;
+  }
+  .panel-heading {font-weight: 500;}
+  .panel-body {padding: 0;}
 }
-
-
 
 .smallRemoteVideo {
     position: relative;
@@ -68,8 +103,7 @@ body {
     top: 2em;
     left: 2em;
     z-index: 1;
-    border: 1px solid #FF6600;
-    margin-right: 1em;
+    margin: 1em;
 }
 
 .smallRemoteVideo video {
@@ -77,22 +111,7 @@ body {
     max-height: 100%;
 }
 
-.videoName {
-    position:absolute;
-    bottom: 0;
-    background-color: black;
-    opacity: 0.7;
-    color: #CCC;
-    width: 100%;
-    text-align: center;
-}
-
-.bigRemoteVideo .videoName {
-    top: 0;
-    bottom: auto;
-}
-
-.partipantsPanel {
+.participantsPanel {
     margin-top: 3em;
 }
 
@@ -104,20 +123,22 @@ body {
 }
 
 .cmdButtons {
-    display:flex;
-    flex-direction: column;
     position: absolute;
     right: 2em;
     bottom: 2em;
     z-index: 2;
 }
 
-.cmdButtons button {
-    margin-bottom: 1em;
-}
-
 .logout {
     position:absolute;
     top:2em;
     right:2em;
+}
+
+.btn-clear {
+    color: #eee !important;
+    background-color: fade(color("#333"), 30%) !important;
+    &:hover {
+        background-color: fade(color("#666"), 30%) !important;
+    }
 }

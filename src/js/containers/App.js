@@ -1,18 +1,21 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Invitation from '../components/invitation';
-import * as reachActions from '../actions/reach';
-import { RoutingContext } from 'react-router';
+import InvitationDialog from '../components/InvitationDialog';
+import * as inviteActions from '../actions/invite';
+import * as bootstrapUtils from 'react-bootstrap/lib/utils/bootstrapUtils';
+import Button from 'react-bootstrap/lib/Button';
+
+bootstrapUtils.addStyle(Button, 'clear');
+bootstrapUtils.bsSizes(['fab', 'fab-mini'], Button);
 
 let ConnectedInvitation = connect(state => {
 	return {
-		invitation: state.user.invitation,
-		username: state.user.username
+		invitation: state.invite.received
 	};
 }, dispatch => {
-	return bindActionCreators(reachActions, dispatch);
-})(Invitation);
+	return bindActionCreators({respondToInvitation: inviteActions.answer}, dispatch);
+})(InvitationDialog);
 
 export default class Main extends Component {
 	static contextTypes = {

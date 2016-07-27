@@ -4,7 +4,6 @@ import thunkMiddleware from 'redux-thunk';
 import promiseMiddleware from 'redux-promise';
 import rootReducer from '../reducers';
 import createLogger from 'redux-logger';
-import getRoutes from '../routes';
 
 const loggerMiddleware = createLogger({
 	level: 'info',
@@ -22,9 +21,9 @@ export default function configureStore(reduxRouterMiddleware, initialState) {
 
 		createStoreWithMiddleware = compose(
 			applyMiddleware(
-				thunkMiddleware, 
-				promiseMiddleware, 
-				loggerMiddleware, 
+				thunkMiddleware,
+				promiseMiddleware,
+				loggerMiddleware,
 				reduxRouterMiddleware),
 			DevTools.instrument()
 		)(createStore);

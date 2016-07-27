@@ -1,103 +1,78 @@
-/* global $ */
-
 import React, { Component, PropTypes } from 'react';
-import ReactDom from 'react-dom';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import * as roomActions from '../actions/room';
+import Modal, { Header, Title, Body, Footer } from 'react-bootstrap/lib/Modal';
+import Button from 'react-bootstrap/lib/Button';
+import ListGroup from 'react-bootstrap/lib/ListGroup';
+import ListGroupItem from 'react-bootstrap/lib/ListGroupItem';
 import history from '../history';
-import { PropTypes as PropTypesRouter} from 'react-router'
 
 export default class AddPopin extends Component {
 
 	static propTypes = {
-		username: PropTypes.string,
-		participants: PropTypes.array,
+		user: PropTypes.object,
+		users: PropTypes.array,
 		room: PropTypes.object,
 		inviteParticipant: PropTypes.func
 	};
 
-	showModal() {
-		const node = $(ReactDom.findDOMNode(this.refs.modal));
-		node.modal();
-
-		$(node).on('hidden.bs.modal', () => {
-			history.replaceState(null, '/visio');
-		});
+	_setModalState(showModal) {
+		if(!this.state || this.state.showModal !== showModal) {
+			this.setState({showModal});
+		}
+		if(this.state && !this.state.showModal) {
+			history.replace('/visio');
+		}
+		this.hide = !showModal;
 	}
 
 	componentDidMount() {
-		this.showModal();
+		this._setModalState(true);
 	}
 
 	componentDidUpdate() {
-		if (!this.hide) {
-			this.showModal();
-		} else {
-			const node = $(ReactDom.findDOMNode(this.refs.modal));
-			$(node).modal('hide');
-		}
+		this._setModalState(!this.hide);
 	}
 
-	invite(username) {
-		this.props.inviteParticipant(username);
+	close() {
+		this._setModalState(false);
+	}
+
+	invite(user) {
+		this.props.inviteParticipant(user);
 		this.hide = true;
 	}
 
 	render() {
-		const createParticipant = (p) => {
-			return <button type="button"
-				className={`list-group-item list-group-item-success`}
-				key={`user_${p.username}`}
-				onClick={this.invite.bind(this, p.username)}>
-				{p.username}
-			</button>;
-		}
-
-		const renderList = (participants) => {
-			const users = this.props.room.users;
-
-			const filtered = participants.filter(p => {
-				return !users.find(u => u.name === p.username) && p.info.connectedList;
-			});
-
-			let tags;
-
-			if (filtered.length) {
-				tags = (
-					<div id="partipantsBox">
-						<h2>Available participants</h2>
-						<div className="list-group" id="participantList" style={{maxHeight:'288px', overflow:'auto'}}>
-						{filtered.map(p => createParticipant.bind(this)(p))}
-						</div>
-					</div>
-				);
-			}
-			else {
-				tags = (
-					<div id="partipantsBox">
-						<h2>No participants available</h2>
-					</div>
-				);
-			}
-
-			return tags;
-		}
+		const showModal = this.state && this.state.showModal;
+		const _inRoom = p => this.props.room.participants.find(u => u.uid === p.uid && u.status === 'CONNECTED');
+		const list = this.props.users.filter(p => p.status === 'CONNECTED' && !_inRoom(p));
+		const modalContent = !list.length ? (<div>No participants registered</div>) : (
+			<ListGroup
+				style={{maxHeight:'288px', overflow:'auto'}}>
+				{list.map(p => {
+					return (
+						<ListGroupItem
+							key={`add_u_${p.uid}`}
+							disabled={p.status !== 'CONNECTED'}
+							onClick={this.invite.bind(this, p)}>
+							<Button bsStyle="link">{p.name}</Button>
+						</ListGroupItem>
+					);
+				})}
+			</ListGroup>
+		);
 
 		return (
-			<div className="modal fade" ref="modal">
-				<div className="modal-dialog">
-					<div className="modal-content">
-						<div className="modal-header">
-							<button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 className="modal-title">Invite someone</h4>
-						</div>
-						<div className="modal-body" style={{textAlign:'center'}}>
-							{renderList.bind(this)(this.props.participants)}
-						</div>
-					</div>
-				</div>
-			</div>
+			<Modal show={showModal}>
+				<Header>
+					<Title>Invite someone</Title>
+				</Header>
+				<Body>
+					{modalContent}
+				</Body>
+				<Footer>
+					<Button onClick={this.close.bind(this)}>close</Button>
+				</Footer>
+			</Modal>
 		);
 	}
 }

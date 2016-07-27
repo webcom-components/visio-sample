@@ -1,4 +1,4 @@
-export function toggleFullscreen() {
+export const toggleFullscreen = () => {
 	if (!document.fullscreenElement &&    // alternative standard method
 		!document.mozFullScreenElement && !document.webkitFullscreenElement) {  // current working methods
 		if (document.documentElement.requestFullscreen) {
@@ -17,22 +17,16 @@ export function toggleFullscreen() {
 			document.webkitCancelFullScreen();
 		}
 	}
-}
+};
 
 /**
  * Generate four number between 0 to 9
  * @returns {string}
  */
-function s4() {
-	return Math.floor((1 + Math.random()) * 0x10000)
-		.toString(16)
-		.substring(1);
-}
+const s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 
 /**
  * Return a guid
  * @returns {string}
  */
-export function guid() {
-	return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
-}
+export const guid = () => `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;

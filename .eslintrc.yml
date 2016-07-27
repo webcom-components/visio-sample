@@ -2,21 +2,18 @@ parser: babel-eslint
 
 root: true
 
-globals:
-  RTCPeerConnection: true
-  attachMediaStream: true
-  Webcom: false
-  getUserMedia: true
-  detachMediaStream: true
-
-ecmaFeatures:
-  modules: true
+parserOptions:
+  ecmaVersion: 6
+  sourceType: module
+  ecmaFeatures:
+    jsx: true
 
 rules:
   strict: 0
   indent:
     - 2
     - tab
+    - SwitchCase: 1
   quotes:
     - 2
     - single
@@ -30,7 +27,7 @@ rules:
     - 0
   complexity:
     - 2
-    - 5
+    - 10
   max-depth:
     - 2
     - 3
@@ -46,7 +43,7 @@ rules:
     - 2
     - 20
   require-jsdoc:
-    - 2
+    - 1
   no-var:
     - 2
   object-shorthand:
@@ -73,7 +70,7 @@ rules:
     - 2
   no-else-return:
     - 2
-  no-empty-label:
+  no-labels:
     - 2
   no-lone-blocks:
     - 2
@@ -103,5 +100,11 @@ env:
   es6: true
   browser: true
   node: true
+  mocha: true
 
-extends: 'eslint:recommended'
+plugins:
+  - 'react'
+
+extends:
+  - 'eslint:recommended'
+  - 'plugin:react/recommended'
