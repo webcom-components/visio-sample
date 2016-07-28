@@ -25,3 +25,5 @@ export const VIDEO_FOCUS = 'VIDEO_FOCUS';
 export const TOGGLE_CHAT = 'TOGGLE_CHAT';
 export const MESSAGE_RECEIVED = 'MESSAGE_RECEIVED';
 export const MESSAGE_SENT = 'MESSAGE_SENT';
+export const DEVICES_LISTED = 'DEVICES_LISTED';
+export const VIDEO_SWITCH = 'VIDEO_SWITCH';

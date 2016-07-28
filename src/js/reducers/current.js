@@ -4,7 +4,8 @@
 
 import {
 	LOGGED,
-	LOGOUT
+	LOGOUT,
+	DEVICES_LISTED
 } from '../utils/constants';
 
 const initialState = {
@@ -25,6 +26,14 @@ export default function user(state = initialState, action = {}) {
 		case LOGOUT:
 			return {
 				...initialState
+			};
+		case DEVICES_LISTED:
+			return {
+				...state,
+				devices: {
+					video: action.data.videoinput.map(d => ({...d})),
+					audio: action.data.audioinput.map(d => ({...d}))
+				}
 			};
 		default:
 			return state;

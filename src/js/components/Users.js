@@ -83,7 +83,7 @@ export default class UserList extends Component {
 					<Col md={6} mdPush={3}>
 						<Panel
 							header={panelHeader}
-							className="participantsPanel">
+							className="users">
 							{panelContent}
 						</Panel>
 					</Col>

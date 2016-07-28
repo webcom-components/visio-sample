@@ -29,6 +29,7 @@ class Visio extends Component {
 		sendInvitation: PropTypes.func.isRequired,
 		focusVideo: PropTypes.func.isRequired,
 		quitRoom: PropTypes.func.isRequired,
+		switchVideo: PropTypes.func.isRequired,
 		toggleVideo: PropTypes.func.isRequired,
 		toggleAudio: PropTypes.func.isRequired,
 		sendMessage: PropTypes.func.isRequired,
@@ -48,12 +49,12 @@ class Visio extends Component {
 	componentDidUpdate() {
 		const users = this.props.room.participants.filter(u => u.stream && u.uid !== this.props.current.uid);
 
-		const videos = $(ReactDom.findDOMNode(this.refs.otherVideos));
+		const videos = $(ReactDom.findDOMNode(this.refs.remoteVideos));
 		// Add or update published streams
 		users.forEach(u => {
 			const streamId = u.stream.uid;
 			const video = videos.find(`#${streamId}`);
-			const videoClass = this.getVideoClass(streamId);
+			const videoClass = `video remote ${this.props.room.focus === streamId ? 'big' : 'small'}`;
 			if (!video.hasClass(videoClass)) {
 				video.removeClass().addClass(videoClass);
 			}
@@ -74,28 +75,22 @@ class Visio extends Component {
 		this.props.focusVideo(ref);
 	}
 
-	getVideoClass(ref) {
-		if (this.props.room.focus === ref) {
-			return ref === 'localVideo' ? 'bigLocalVideo' : 'bigRemoteVideo';
-		}
-		return ref === 'localVideo' ? 'smallLocalVideo' : 'smallRemoteVideo';
-	}
-
-	getOtherVideos2(){
+	remoteVideos(){
 		const users = this.props.room.participants.filter(u => u.stream && u.uid !== this.props.current.uid);
 		return users.map(u => {
 			const videoStatus = u.stream.muted.video ? 'muteVideo' : '';
 			const audioStatus = u.stream.muted.audio ? 'muteAudio' : '';
+			const size = this.props.room.focus === u.stream.uid ? 'big' : 'small';
 			return (
 				<Panel
-					bsStyle="primary"
-					className={this.getVideoClass(u.stream.uid)}
+					bsStyle="clear"
+					className={`video remote ${size}`}
 					id={u.stream.uid}
 					key={u.stream.uid}
 					header={u.name}
 					onClick={this.focus.bind(this, u.stream.uid)}>
 					<div id={`video-${u.stream.uid}`}></div>
-					<div className={`remoteStatus ${videoStatus} ${audioStatus}`}>
+					<div className={`status ${videoStatus} ${audioStatus}`}>
 						<i className="material-icons">videocam_off</i>
 						<i className="material-icons">mic_off</i>
 					</div>
@@ -105,6 +100,7 @@ class Visio extends Component {
 	}
 
 	render() {
+		const size = this.props.room.focus === 'localVideo' ? 'big' : 'small';
 		return (
 			<div>
 				{this.props.children &&
@@ -119,18 +115,20 @@ class Visio extends Component {
 					room={this.props.room.info}
 					quitRoom={this.props.quitRoom} />
 				<CmdButtons
+					devices={this.props.current.devices}
 					stream={this.props.room.stream}
+					switchVideo={this.props.switchVideo}
 					toggleVideo={this.props.toggleVideo}
 					toggleAudio={this.props.toggleAudio} />
 				<Panel
-					bsStyle="warning"
-					className={this.getVideoClass('localVideo')}
+					bsStyle="clear"
+					className={`video local ${size}`}
 					header="Local"
 					onClick={this.focus.bind(this, 'localVideo')}>
 					<div ref="localVideo"></div>
 				</Panel>
-				<div className='videoContainer' ref='otherVideos'>
-					{this.getOtherVideos2()}
+				<div className='remoteVideos' ref='remoteVideos'>
+					{this.remoteVideos()}
 				</div>
 				<ChatForm
 					current={this.props.current}
@@ -159,6 +157,7 @@ function mapDispatchToProps(dispatch) {
 		quitRoom: roomActions.leave,
 		toggleAudio: streamActions.toggleAudio,
 		toggleVideo: streamActions.toggleVideo,
+		switchVideo: streamActions.switchVideo,
 		focusVideo: streamActions.focusVideo,
 		subscribeStream: streamActions.subscribe,
 		publishStream: streamActions.publish,

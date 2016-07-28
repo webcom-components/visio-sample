@@ -3,6 +3,7 @@
 import {
 	AUDIO_UNMUTED, AUDIO_MUTED,
 	VIDEO_UNMUTED, VIDEO_MUTED, VIDEO_FOCUS,
+	DEVICES_LISTED, VIDEO_SWITCH,
 	STREAM_PUBLISHED, STREAM_UNPUBLISHED,
 	STREAM_RECEIVED, STREAM_SUBSCRIBED, STREAM_UNSUBSCRIBED, STREAM_CHANGED
 } from '../utils/constants';
@@ -24,6 +25,13 @@ const toggleAudio = _toggle.bind(null, Reach.types.AUDIO, [AUDIO_UNMUTED, AUDIO_
 
 const toggleVideo = _toggle.bind(null, Reach.types.VIDEO, [VIDEO_UNMUTED, VIDEO_MUTED]);
 
+const switchVideo = stream => {
+	streams.find(stream).switchCamera();
+	return {
+		type: VIDEO_SWITCH
+	};
+};
+
 const focusVideo = ref => ({type: VIDEO_FOCUS, data: ref});
 
 const publish = (user, room, videoTag) => (dispatch, getState) => {
@@ -42,6 +50,13 @@ const publish = (user, room, videoTag) => (dispatch, getState) => {
 						muted: localStream.muted
 					}
 				});
+				Reach.media.devices()
+					.then(devices => {
+						dispatch({
+							type: DEVICES_LISTED,
+							data: {...devices}
+						});
+					});
 			});
 	}
 };
@@ -121,4 +136,4 @@ const subscribe = (remoteStream, videoTab) => (dispatch, getState) => {
 		});
 };
 
-export {toggleAudio, toggleVideo, focusVideo, publish, listen, subscribe};
+export {toggleAudio, toggleVideo, switchVideo, focusVideo, publish, listen, subscribe};

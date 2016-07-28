@@ -37,43 +37,41 @@ export default class LoginForm extends Component {
 		const { fields : { email, password, username } } = this.props;
 
 		return (
-			<div className="vertical-center">
-				<Grid>
-					<Row>
-						<Col md={6} mdPush={3}>
-							<Panel>
-								<Form>
-									<FormGroup controlId="email" bsClass="form-group label-floating">
-										<ControlLabel>email</ControlLabel>
-										<FormControl
-											type="text"
-											{...email}
-										/>
-									</FormGroup>
-									<FormGroup controlId="password" bsClass="form-group label-floating">
-										<ControlLabel>password</ControlLabel>
-										<FormControl
-											type="password"
-											{...password}
-										/>
-									</FormGroup>
-									<FormGroup controlId="username" bsClass="form-group label-floating">
-										<ControlLabel>username</ControlLabel>
-										<FormControl
-											type="text"
-											{...username}
-										/>
-									</FormGroup>
-									<Button
-										bsStyle="primary"
-										type="submit"
-										onClick={this.handleSubmit.bind(this)}>login</Button>
-								</Form>
-							</Panel>
-						</Col>
-					</Row>
-				</Grid>
-			</div>
+			<Grid>
+				<Row>
+					<Col md={6} mdPush={3}>
+						<Panel className="login">
+							<Form>
+								<FormGroup controlId="email" bsClass="form-group label-floating">
+									<ControlLabel>email</ControlLabel>
+									<FormControl
+										type="text"
+										{...email}
+									/>
+								</FormGroup>
+								<FormGroup controlId="password" bsClass="form-group label-floating">
+									<ControlLabel>password</ControlLabel>
+									<FormControl
+										type="password"
+										{...password}
+									/>
+								</FormGroup>
+								<FormGroup controlId="username" bsClass="form-group label-floating">
+									<ControlLabel>username</ControlLabel>
+									<FormControl
+										type="text"
+										{...username}
+									/>
+								</FormGroup>
+								<Button
+									bsStyle="primary"
+									type="submit"
+									onClick={this.handleSubmit.bind(this)}>login</Button>
+							</Form>
+						</Panel>
+					</Col>
+				</Row>
+			</Grid>
 		);
 	}
 }

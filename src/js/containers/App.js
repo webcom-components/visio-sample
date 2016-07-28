@@ -5,9 +5,12 @@ import InvitationDialog from '../components/InvitationDialog';
 import * as inviteActions from '../actions/invite';
 import * as bootstrapUtils from 'react-bootstrap/lib/utils/bootstrapUtils';
 import Button from 'react-bootstrap/lib/Button';
+import Panel from 'react-bootstrap/lib/Panel';
+
 
 bootstrapUtils.addStyle(Button, 'clear');
 bootstrapUtils.bsSizes(['fab', 'fab-mini'], Button);
+bootstrapUtils.addStyle(Panel, 'clear');
 
 let ConnectedInvitation = connect(state => {
 	return {

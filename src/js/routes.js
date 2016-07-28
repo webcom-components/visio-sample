@@ -23,7 +23,7 @@ export default (
 		<Route path="users" component={UsersPage} onEnter={requireAuth} />
 		<Route path="visio" component={VisioPage} onEnter={requireAuth} >
 			<Route path="add" component={AddPopin} />
-			</Route>
+		</Route>
 		<Redirect from="*" to="/" />
 	</Route>
 );
