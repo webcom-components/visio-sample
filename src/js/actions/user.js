@@ -45,7 +45,7 @@ const _onceLogged = (dispatch, getState) => currentUser => {
 	});
 	reach.on(Reach.events.reach.INVITE_ADDED, invite => {
 		const sender = getState().users.find(participant => participant.uid === invite.from);
-		if(sender && invite.isOnGoing) {
+		if(sender && invite.isOnGoing && invite._created > currentUser.lastSeen) {
 			dispatch(Invite.receive(sender, invite));
 		}
 	});

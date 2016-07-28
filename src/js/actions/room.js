@@ -97,7 +97,6 @@ const join = room => dispatch => {
 		});
 };
 
-
 const leave = (user, room) => dispatch => {
 	const _room = rooms.find(room);
 	_room.remoteStreams()
@@ -115,12 +114,8 @@ const leave = (user, room) => dispatch => {
 		.then(() => _room.leave())
 		.then(() => {
 			history.push('/users');
-			if (user.uid === _room.owner) {
-				return _room.close();
-			}
 		})
 		.then(() => {
-			// TODO remove sent invites
 			rooms.remove(room);
 			dispatch({
 				type: ROOM_LEFT,
