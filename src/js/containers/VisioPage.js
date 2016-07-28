@@ -89,7 +89,7 @@ class Visio extends Component {
 					key={u.stream.uid}
 					header={u.name}
 					onClick={this.focus.bind(this, u.stream.uid)}>
-					<div id={`video-${u.stream.uid}`}></div>
+					<div id={`video-${u.stream.uid}`} className="videoContainer"></div>
 					<div className={`status ${videoStatus} ${audioStatus}`}>
 						<i className="material-icons">videocam_off</i>
 						<i className="material-icons">mic_off</i>
@@ -125,7 +125,7 @@ class Visio extends Component {
 					className={`video local ${size}`}
 					header="Local"
 					onClick={this.focus.bind(this, 'localVideo')}>
-					<div ref="localVideo"></div>
+					<div ref="localVideo" className="videoContainer"></div>
 				</Panel>
 				<div className='remoteVideos' ref='remoteVideos'>
 					{this.remoteVideos()}

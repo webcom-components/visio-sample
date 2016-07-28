@@ -67,7 +67,7 @@ export default class CmdButtons extends Component {
 				</OverlayTrigger>
 			) : '';
 		return (
-			<ButtonGroup className="cmdButtons" vertical>
+			<ButtonGroup className="cmdButtons" bsSize="sm" vertical>
 				{switchCamera}
 				<OverlayTrigger
 					trigger={['hover', 'focus']}

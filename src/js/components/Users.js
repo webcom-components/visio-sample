@@ -56,10 +56,10 @@ export default class UserList extends Component {
 
 		const panelHeader = (
 			<Row>
-				<Col md={10}>
+				<Col xs={9} sm={10}>
 					<h4>Participants</h4>
 				</Col>
-				<Col md={2}>
+				<Col xs={3} sm={2}>
 					<Button
 						bsClass="btn btn-primary btn-fab btn-fab-mini"
 						onClick={this.archive.bind(this)}
@@ -80,7 +80,7 @@ export default class UserList extends Component {
 					</Button>
 				</div>
 				<Row>
-					<Col md={6} mdPush={3}>
+					<Col xs={10} xsPush={1} sm={8} smPush={2} md={6} mdPush={3}>
 						<Panel
 							header={panelHeader}
 							className="users">

@@ -31,18 +31,18 @@ export default class TopButtons extends Component {
 		);
 
 		return (
-			<ButtonGroup className='topButtons' vertical>
-				<OverlayTrigger 
-					trigger={['hover', 'focus']} 
-					placement="left" 
+			<ButtonGroup className='topButtons' bsSize="sm" vertical>
+				<OverlayTrigger
+					trigger={['hover', 'focus']}
+					placement="left"
 					overlay={popoverHoverFocus('pop_quit', 'Quit room')}>
 					<Button bsStyle="clear" bsSize="fab" onClick={this.exit.bind(this)}>
 						<i className="material-icons">clear</i>
 					</Button>
 				</OverlayTrigger>
-				<OverlayTrigger 
-					trigger={['hover', 'focus']} 
-					placement="left" 
+				<OverlayTrigger
+					trigger={['hover', 'focus']}
+					placement="left"
 					overlay={popoverHoverFocus('pop_add', 'Add participant')}>
 					<Button bsStyle="clear" bsSize="fab" onClick={this.addParticipantToRoom.bind(this)}>
 						<i className="material-icons">add</i>

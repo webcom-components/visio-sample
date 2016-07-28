@@ -38,24 +38,16 @@ html, body, #root {
 
 .video {
   .transition(~"width ease .3s, height ease .3s");
-  .status {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    color: @gray-lighter;
-    i {
-      display: none;
-    }
-    &.muteAudio i:last-child {
-      display: inline-block
-    }
-    &.muteVideo i:first-child {
-      display: inline-block
+  .panel-body {
+    .size(100%, 100%);
+    display: flex;
+    align-items: center;
+    .videoContainer {
+      .size(100%, 100%);
     }
   }
-
   video {
-    .size(100%,100%);
+    .size(100%, 100%);
     max-height: 100%;
     max-width: 100%;
     object-fit: cover;
@@ -74,8 +66,9 @@ html, body, #root {
   }
 
   &.small {
-    width: 15%;
-    min-height: 10%;
+    width: 150px;
+    min-height: 50px;
+    max-height: 150px;
     left: @video-offset-h;
     z-index: 2;
     .panel-heading {
@@ -97,6 +90,27 @@ html, body, #root {
   }
 }
 
+.status {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  color: @gray-lighter;
+  i {
+    display: none;
+    border-radius: 50%;
+    padding: 4px;
+    margin: 0 1px;
+  }
+  &.muteAudio i:last-child {
+    display: inline-block;
+    background-color: @brand-info;
+  }
+  &.muteVideo i:first-child {
+    display: inline-block;
+    background-color: @brand-success;
+  }
+}
+
 .remoteVideos {
   z-index: 1;
   position: absolute;
@@ -105,7 +119,7 @@ html, body, #root {
 }
 
 .users, .login {
-  margin-top: @command-offset-v;
+  margin-top: 3 * @command-offset-v;
 }
 
 .topButtons {
@@ -128,3 +142,24 @@ html, body, #root {
   right: @command-offset-h;
 }
 
+
+@media (min-width: @screen-sm-min) {
+  .users, .login {
+    margin-top: @command-offset-v;
+  }
+  .video.small {
+    width: 30%;
+    min-height: 90px;
+    max-height: 30%;
+  }
+}
+@media (min-width: @screen-md-min) {
+  .video.small {
+    width: 25%;
+  }
+}
+@media (min-width: @screen-lg-min) {
+  .video.small {
+    width: 15%;
+  }
+}

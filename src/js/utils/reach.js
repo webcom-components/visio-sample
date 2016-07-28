@@ -3,12 +3,14 @@
 let _reach;
 const stores = {};
 
-export function ref() {
+export const ref = () => {
 	if(!_reach) {
-		_reach = new Reach(`${__WEBCOM_SERVER__}/base/${__NAMESPACE__}`);
+		const constraints = Reach.media.constraints();
+		constraints.video = Object.assign(constraints.video, {frameRate: {ideal: 10, max: 25}});
+		_reach = new Reach(`${__WEBCOM_SERVER__}/base/${__NAMESPACE__}`, {constraints});
 	}
 	return _reach;
-}
+};
 
 class _Store {
 	constructor(type) {
