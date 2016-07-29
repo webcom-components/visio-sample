@@ -25,8 +25,6 @@ export default class LoginForm extends Component {
 			this.props.fields.password.value,
 			this.props.fields.username.value
 		);
-
-		console.log(arguments);
 	}
 
 	componentWillMount() {
