@@ -53,8 +53,8 @@ export default class AddPopin extends Component {
 						<ListGroupItem
 							key={`add_u_${p.uid}`}
 							disabled={p.status !== 'CONNECTED'}
-							onClick={this.invite.bind(this, p)}>
-							<Button bsStyle="link">{p.name}</Button>
+							onClick={this.invite.bind(this, p)}
+							header={p.name}>
 						</ListGroupItem>
 					);
 				})}
