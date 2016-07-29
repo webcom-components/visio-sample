@@ -74,7 +74,7 @@ const send = (invitee, room) => {
 					dispatch(answered(false, invitee, invite, _room));
 				});
 
-				const alreadyInRoom = getState().room && getState().room.uid;
+				const alreadyInRoom = getState().room && getState().room.info;
 				if (!alreadyInRoom) {
 					dispatch(roomActions.join(_room));
 				}
