@@ -57,7 +57,7 @@ export default class UserList extends Component {
 		const panelHeader = (
 			<Row>
 				<Col xs={9} sm={10}>
-					<h4>Participants</h4>
+					<h4>Connected users</h4>
 				</Col>
 				<Col xs={3} sm={2}>
 					<Button
