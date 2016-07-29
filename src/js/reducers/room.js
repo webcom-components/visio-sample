@@ -87,7 +87,7 @@ export default (state = initialState, action = {}) => {
 			return {
 				...state,
 				participants:
-					state.participants.map(u => u.streamId === action.data.streamId ? { ...u, stream: null, subscribed: null } : u)
+					state.participants.map(u => u.uid === action.data.from ? { ...u, stream: null, subscribed: null } : u)
 			};
 
 		case VIDEO_MUTED:
