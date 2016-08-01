@@ -1,13 +1,33 @@
-/* global Reach, __WEBCOM_SERVER__, __NAMESPACE__ */
+/* global Reach, __WEBCOM_SERVER__, __NAMESPACE__, __DEVTOOLS__ */
 
 let _reach;
 const stores = {};
 
 export const ref = () => {
 	if(!_reach) {
-		const constraints = Reach.media.constraints();
+		const
+			logLevel = __DEVTOOLS__ ? 'INFO' : 'ERROR',
+			preferredAudioCodec = Reach.codecs.audio.OPUS,
+			preferredVideoCodec = Reach.codecs.video.VP9,
+			audioConstraints = {
+				optional:[
+					{googEchoCancellation: true},
+					{googAutoGainControl: true},
+					{googNoiseReduction: true}
+				],
+				mandatory:{}
+			},
+			constraints = Reach.media.constraints('HD', audioConstraints);
+
+		// Force framerate
 		constraints.video = Object.assign(constraints.video, {frameRate: {ideal: 10, max: 25}});
-		_reach = new Reach(`${__WEBCOM_SERVER__}/base/${__NAMESPACE__}`, {constraints});
+
+		_reach = new Reach(`${__WEBCOM_SERVER__}/base/${__NAMESPACE__}`, {
+			logLevel,
+			constraints,
+			preferredAudioCodec,
+			preferredVideoCodec
+		});
 	}
 	return _reach;
 };
