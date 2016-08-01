@@ -30,3 +30,31 @@ const s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substrin
  * @returns {string}
  */
 export const guid = () => `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
+
+/**
+ * Throttle function
+ * @param fn The function
+ * @param threshold The
+ * @param scope
+ * @returns {function()}
+ */
+export const throttle = (fn, threshold = 250, scope) => {
+	let last,
+		deferTimer;
+	return (...args) => {
+		const
+			context = scope || this,
+			now = Date.now(),
+			exec = () => {
+				last = now;
+				fn.apply(context, args);
+			};
+		if (last && now < last + threshold) {
+			// hold on to it
+			clearTimeout(deferTimer);
+			deferTimer = setTimeout(exec, threshold);
+		} else {
+			exec();
+		}
+	};
+};

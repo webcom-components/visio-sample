@@ -50,10 +50,11 @@ html, body, #root {
     .size(100%, 100%);
     max-height: 100%;
     max-width: 100%;
-    object-fit: cover;
     display: block;
   }
-
+  &:not(.portrait) video {
+    object-fit: cover;
+  }
   &.big {
     .size(100%,100%);
     position: absolute;
@@ -86,6 +87,10 @@ html, body, #root {
       display: inline-block;
       top: @video-offset-v;
       margin: 10px 1px;
+    }
+    &.portrait {
+      max-height: 150px;
+      max-width: 100px;
     }
   }
 }
@@ -142,6 +147,11 @@ html, body, #root {
   right: @command-offset-h;
 }
 
+@media (max-width: @screen-sm-min) {
+  .video.big.portrait video {
+    object-fit: cover;
+  }
+}
 
 @media (min-width: @screen-sm-min) {
   .users, .login {
@@ -151,6 +161,10 @@ html, body, #root {
     width: 30%;
     min-height: 90px;
     max-height: 30%;
+  }
+  .video.small.portrait {
+    max-height: 200px;
+    max-width: 134px;
   }
 }
 @media (min-width: @screen-md-min) {

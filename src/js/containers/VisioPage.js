@@ -12,14 +12,26 @@ import CmdButtons from '../components/CmdButtons';
 import Chat from '../components/Chat';
 import {reduxForm} from 'redux-form';
 import Panel from 'react-bootstrap/lib/Panel';
+import {throttle} from '../utils';
 
 const ChatForm = reduxForm({
 	form: 'chat',            // the name of your form and the key to where your form's state will be mounted
 	fields: ['message'] // a list of all your fields in your form
 })(Chat);
 
+const setVideoOrientation = (container, selector) => {
+	container.find('video').each((i, videoElt) => {
+		const portrait = videoElt.videoWidth < videoElt.videoHeight;
+		$(videoElt)
+			.parents(selector)
+			.toggleClass('portrait', portrait)
+			.toggleClass('landscape', !portrait);
+	});
+};
+
 class Visio extends Component {
 	static propTypes = {
+		children: PropTypes.object,
 		current: PropTypes.object.isRequired,
 		room: PropTypes.object,
 		users: PropTypes.array.isRequired,
@@ -49,20 +61,23 @@ class Visio extends Component {
 	componentDidUpdate() {
 		const users = this.props.room.participants.filter(u => u.stream && u.uid !== this.props.current.uid);
 
-		const videos = $(ReactDom.findDOMNode(this.refs.remoteVideos));
+		const remoteVideos = $(ReactDom.findDOMNode(this.refs.remoteVideos));
 		// Add or update published streams
 		users.forEach(u => {
 			const streamId = u.stream.uid;
-			const video = videos.find(`#${streamId}`);
+			const video = remoteVideos.find(`#${streamId}`);
 			const videoClass = `video remote ${this.props.room.focus === streamId ? 'big' : 'small'}`;
 			if (!video.hasClass(videoClass)) {
 				video.removeClass().addClass(videoClass);
 			}
-			const videoTag = videos.find(`#video-${streamId}`)[0];
+			const videoTag = remoteVideos.find(`#video-${streamId}`)[0];
 			if (!u.subscribed) {
 				this.props.subscribeStream(u.stream, videoTag);
 			}
 		}, this);
+
+		throttle(setVideoOrientation)(remoteVideos, '.video.remote', 500);
+		throttle(setVideoOrientation)($(ReactDom.findDOMNode(this.refs.localVideo)), '.video.local');
 	}
 
 	inviteParticipant(userToInvite) {
