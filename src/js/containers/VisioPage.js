@@ -76,6 +76,18 @@ class Visio extends Component {
 			}
 		}, this);
 
+		const remoteFocused = remoteVideos.find('.video.big').attr('id');
+		const remotes = remoteVideos.find('.video');
+		let focus = this.props.room.focus;
+		if(remotes.length === 0 && focus && focus !== 'localVideo') {
+			focus = 'localVideo';
+		} else if(remotes.length > 0 && focus !== 'localVideo' && !remoteFocused) {
+			focus = remotes.attr('id');
+		}
+		if(focus !== this.props.room.focus) {
+			this.focus(focus);
+		}
+
 		throttle(setVideoOrientation)(remoteVideos, '.video.remote', 500);
 		throttle(setVideoOrientation)($(ReactDom.findDOMNode(this.refs.localVideo)), '.video.local');
 	}
@@ -115,7 +127,7 @@ class Visio extends Component {
 	}
 
 	render() {
-		const size = this.props.room.focus === 'localVideo' ? 'big' : 'small';
+		const size = !this.props.room.focus || this.props.room.focus === 'localVideo' ? 'big' : 'small';
 		return (
 			<div>
 				{this.props.children &&

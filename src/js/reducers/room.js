@@ -27,7 +27,7 @@ export default (state = initialState, action = {}) => {
 			return {
 				...state,
 				info: {...action.data},
-				focus: 'localVideo',
+				focus: null,
 				chatMinimized: true,
 				messages: [],
 				participants: []

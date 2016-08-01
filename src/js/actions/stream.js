@@ -79,7 +79,7 @@ const listen = room => (dispatch, getState) => {
 
 		_room.on(Reach.events.room.STREAM_UNPUBLISHED, remoteStream => {
 			const subscribed = getState().room.participants.some(
-				u => u.stream && u.stream.uid === remoteStream.uid && u.stream.subscribed
+				u => u.stream && u.stream.uid === remoteStream.uid && u.subscribed
 			);
 			if (subscribed) {
 				dispatch({
