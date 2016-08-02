@@ -3,153 +3,167 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as roomActions from '../actions/room';
-import * as reachActions from '../actions/reach';
+import * as streamActions from '../actions/stream';
+import * as inviteActions from '../actions/invite';
 import React, { Component, PropTypes } from 'react';
-import history from '../history';
 import ReactDom from 'react-dom';
-import AddPopin from '../components/AddPopin';
-import TopButtons from '../components/topButtons';
-import CmdButtons from '../components/cmdButtons';
-import Chat from '../components/chat';
+import TopButtons from '../components/TopButtons';
+import CmdButtons from '../components/CmdButtons';
+import Chat from '../components/Chat';
 import {reduxForm} from 'redux-form';
+import Panel from 'react-bootstrap/lib/Panel';
+import {throttle} from '../utils';
 
 const ChatForm = reduxForm({
 	form: 'chat',            // the name of your form and the key to where your form's state will be mounted
 	fields: ['message'] // a list of all your fields in your form
 })(Chat);
 
+const setVideoOrientation = (container, selector) => {
+	container.find('video').each((i, videoElt) => {
+		const portrait = videoElt.videoWidth < videoElt.videoHeight;
+		$(videoElt)
+			.parents(selector)
+			.toggleClass('portrait', portrait)
+			.toggleClass('landscape', !portrait);
+	});
+};
+
 class Visio extends Component {
 	static propTypes = {
-		logged: PropTypes.bool,
-		username: PropTypes.string.isRequired,
+		children: PropTypes.object,
+		current: PropTypes.object.isRequired,
 		room: PropTypes.object,
-		participants: PropTypes.array.isRequired
+		users: PropTypes.array.isRequired,
+		publishStream: PropTypes.func.isRequired,
+		listenToStreams: PropTypes.func.isRequired,
+		subscribeStream: PropTypes.func.isRequired,
+		sendInvitation: PropTypes.func.isRequired,
+		focusVideo: PropTypes.func.isRequired,
+		quitRoom: PropTypes.func.isRequired,
+		switchVideo: PropTypes.func.isRequired,
+		toggleVideo: PropTypes.func.isRequired,
+		toggleAudio: PropTypes.func.isRequired,
+		sendMessage: PropTypes.func.isRequired,
+		toggleChat: PropTypes.func.isRequired
 	};
 
 	componentDidMount() {
 		if (!this.props.room) {
 			return;
 		}
-		this.props.publishStream(
-			this.props.username,
-			this.props.room.name,
-			this.refs.localVideo);
 
-		this.props.listenToStreams(
-			this.props.username,
-			this.props.room.name);
-	}
+		this.props.publishStream(this.props.current, this.props.room.info, this.refs.localVideo);
 
-	removeUnpublishedStreams(videos, users) {
-		if (videos.length) {
-
-			const displayedStreams = videos.children().map((i, v) => v.id);
-			const currentStreams = new Set(users.map(u => u.streamId));
-			if (displayedStreams.length) {
-				displayedStreams.toArray().filter(s => !currentStreams.has(s)).forEach(s => {
-					if (s) {
-						videos.find(`#${s}`).remove();
-					}
-				});
-			}
-
-		}
-	}
-
-	addVideoTag(videos, user, streamId) {
-		videos.append(`
-			<div class='${this.getVideoClass(streamId)}' id='${streamId}'>
-				<span class='videoName'>${user.name}</span>
-				<video id='video-${streamId}'></video>
-			</div>`
-		);
-		const video = videos.find(`#${streamId}`);
-		video.click(() => {
-			this.focus(streamId);
-		});
+		this.props.listenToStreams(this.props.room.info);
 	}
 
 	componentDidUpdate() {
-		const users = this.props.room.users.filter(u => u.streamData);
-		const videos = $(ReactDom.findDOMNode(this.refs.otherVideos));
+		const users = this.props.room.participants.filter(u => u.stream && u.uid !== this.props.current.uid);
 
-		this.removeUnpublishedStreams(videos, users);
-
+		const remoteVideos = $(ReactDom.findDOMNode(this.refs.remoteVideos));
 		// Add or update published streams
 		users.forEach(u => {
-			const streamId = Object.keys(u.streamData)[0];
-			const video = videos.find(`#${streamId}`);
-			const videoClass = this.getVideoClass(streamId);
-
-			if (!video.length) {
-				this.addVideoTag(videos, u, streamId);
-			}
-			// otherwise update video tag
-			else if (!video.hasClass(videoClass)) {
+			const streamId = u.stream.uid;
+			const video = remoteVideos.find(`#${streamId}`);
+			const videoClass = `video remote ${this.props.room.focus === streamId ? 'big' : 'small'}`;
+			if (!video.hasClass(videoClass)) {
 				video.removeClass().addClass(videoClass);
 			}
-
-			const videoTag = videos.find(`#video-${streamId}`)[0];
-
+			const videoTag = remoteVideos.find(`#video-${streamId}`)[0];
 			if (!u.subscribed) {
-				this.props.subscribeStream(
-					this.props.username,
-					this.props.room.name,
-					u.streamData, videoTag);
+				this.props.subscribeStream(u.stream, videoTag);
 			}
 		}, this);
+
+		const remoteFocused = remoteVideos.find('.video.big').attr('id');
+		const remotes = remoteVideos.find('.video');
+		let focus = this.props.room.focus;
+		if(remotes.length === 0 && focus && focus !== 'localVideo') {
+			focus = 'localVideo';
+		} else if(remotes.length > 0 && focus !== 'localVideo' && !remoteFocused) {
+			focus = remotes.attr('id');
+		}
+		if(focus !== this.props.room.focus) {
+			this.focus(focus);
+		}
+
+		throttle(setVideoOrientation)(remoteVideos, '.video.remote', 500);
+		throttle(setVideoOrientation)($(ReactDom.findDOMNode(this.refs.localVideo)), '.video.local');
 	}
 
 	inviteParticipant(userToInvite) {
 		this.props.sendInvitation(
-			this.props.username,
 			userToInvite,
-			this.props.room.name);
+			this.props.room.info);
 	}
 
 	focus(ref) {
 		this.props.focusVideo(ref);
 	}
 
-	getVideoClass(ref) {
-		if (this.props.room.focus === ref) {
-			return ref === 'localVideo' ? 'bigLocalVideo' : 'bigRemoteVideo';
-		}
-
-		return ref === 'localVideo' ? 'smallLocalVideo' : 'smallRemoteVideo';
-	}
-
-	getOtherVideos() {
-		const users = this.props.room.users.filter(u => u.streamData);
-		return users.length ?
-			<div className='videoContainer' ref='otherVideos'></div> : undefined;
+	remoteVideos(){
+		const users = this.props.room.participants.filter(u => u.stream && u.uid !== this.props.current.uid);
+		return users.map(u => {
+			const videoStatus = u.stream.muted.video ? 'muteVideo' : '';
+			const audioStatus = u.stream.muted.audio ? 'muteAudio' : '';
+			const size = this.props.room.focus === u.stream.uid ? 'big' : 'small';
+			return (
+				<Panel
+					bsStyle="clear"
+					className={`video remote ${size}`}
+					id={u.stream.uid}
+					key={u.stream.uid}
+					header={u.name}
+					onClick={this.focus.bind(this, u.stream.uid)}>
+					<div id={`video-${u.stream.uid}`} className="videoContainer"></div>
+					<div className={`status ${videoStatus} ${audioStatus}`}>
+						<i className="material-icons">videocam_off</i>
+						<i className="material-icons">mic_off</i>
+					</div>
+				</Panel>
+			);
+		});
 	}
 
 	render() {
+		const size = !this.props.room.focus || this.props.room.focus === 'localVideo' ? 'big' : 'small';
 		return (
-			<div ref='container'>
+			<div>
 				{this.props.children &&
-				 React.cloneElement(this.props.children, {
-					participants: this.props.participants,
-					username: this.props.username,
+				React.cloneElement(this.props.children, {
+					users: this.props.users,
+					current: this.props.current,
 					room: this.props.room,
 					inviteParticipant: this.inviteParticipant.bind(this)
 				})}
-				<TopButtons username={this.props.username}
-							room={this.props.room}
-							quitRoom={this.props.quitRoom} />
-				<CmdButtons username={this.props.username}
-							room={this.props.room}
-							toggleVideo={this.props.toggleVideo}
-							toggleAudio={this.props.toggleAudio} />
-				<video className={this.getVideoClass('localVideo')} ref="localVideo" onClick={this.focus.bind(this, 'localVideo')}></video>
-				{this.getOtherVideos.bind(this)()}
-				<ChatForm 	username={this.props.username}
-							roomname={this.props.room.name}
-							sendMessage={this.props.sendMessage}
-							toggleChat={this.props.toggleChat}
-							minimized={this.props.room.chatMinimized}
-							messages={this.props.room.messages} />
+				<TopButtons
+					current={this.props.current}
+					room={this.props.room.info}
+					quitRoom={this.props.quitRoom} />
+				<CmdButtons
+					devices={this.props.current.devices}
+					stream={this.props.room.stream}
+					switchVideo={this.props.switchVideo}
+					toggleVideo={this.props.toggleVideo}
+					toggleAudio={this.props.toggleAudio} />
+				<Panel
+					bsStyle="clear"
+					className={`video local ${size}`}
+					header="Local"
+					onClick={this.focus.bind(this, 'localVideo')}>
+					<div ref="localVideo" className="videoContainer"></div>
+				</Panel>
+				<div className='remoteVideos' ref='remoteVideos'>
+					{this.remoteVideos()}
+				</div>
+				<ChatForm
+					current={this.props.current}
+					room={this.props.room.info}
+					sendMessage={this.props.sendMessage}
+					toggleChat={this.props.toggleChat}
+					minimized={this.props.room.chatMinimized}
+					messages={this.props.room.messages} />
 			</div>
 		);
 	}
@@ -157,15 +171,26 @@ class Visio extends Component {
 
 function mapStateToProps(state) {
 	return {
-		logged: state.user.logged,
-		username: state.user.username,
+		current: state.current,
 		room: state.room,
-		participants: state.participants
+		users: state.users
 	};
 }
 
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators({ ...roomActions, ...reachActions}, dispatch);
+	return bindActionCreators({
+		sendMessage: roomActions.sendMessage,
+		toggleChat: roomActions.toggleChat,
+		quitRoom: roomActions.leave,
+		toggleAudio: streamActions.toggleAudio,
+		toggleVideo: streamActions.toggleVideo,
+		switchVideo: streamActions.switchVideo,
+		focusVideo: streamActions.focusVideo,
+		subscribeStream: streamActions.subscribe,
+		publishStream: streamActions.publish,
+		listenToStreams: streamActions.listen,
+		sendInvitation: inviteActions.send
+	}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Visio);

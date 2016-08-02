@@ -1,4 +1,4 @@
-export function toggleFullscreen() {
+export const toggleFullscreen = () => {
 	if (!document.fullscreenElement &&    // alternative standard method
 		!document.mozFullScreenElement && !document.webkitFullscreenElement) {  // current working methods
 		if (document.documentElement.requestFullscreen) {
@@ -17,22 +17,44 @@ export function toggleFullscreen() {
 			document.webkitCancelFullScreen();
 		}
 	}
-}
+};
 
 /**
  * Generate four number between 0 to 9
  * @returns {string}
  */
-function s4() {
-	return Math.floor((1 + Math.random()) * 0x10000)
-		.toString(16)
-		.substring(1);
-}
+const s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 
 /**
  * Return a guid
  * @returns {string}
  */
-export function guid() {
-	return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
-}
+export const guid = () => `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
+
+/**
+ * Throttle function
+ * @param fn The function
+ * @param threshold The
+ * @param scope
+ * @returns {function()}
+ */
+export const throttle = (fn, threshold = 250, scope) => {
+	let last,
+		deferTimer;
+	return (...args) => {
+		const
+			context = scope || this,
+			now = Date.now(),
+			exec = () => {
+				last = now;
+				fn.apply(context, args);
+			};
+		if (last && now < last + threshold) {
+			// hold on to it
+			clearTimeout(deferTimer);
+			deferTimer = setTimeout(exec, threshold);
+		} else {
+			exec();
+		}
+	};
+};

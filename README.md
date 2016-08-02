@@ -1,17 +1,18 @@
-# Samples with Webcom and WebRTC
+# Samples with Reach
 
 [![Build Status](https://travis-ci.org/webcom-components/visio-sample.svg?branch=master)](https://travis-ci.org/webcom-components/visio-sample)
 [![Code Climate](https://codeclimate.com/github/webcom-components/visio-sample/badges/gpa.svg)](https://codeclimate.com/github/webcom-components/visio-sample)
 [![Test Coverage](https://codeclimate.com/github/webcom-components/visio-sample/badges/coverage.svg)](https://codeclimate.com/github/webcom-components/visio-sample/coverage)
 [![devDependency Status](https://david-dm.org/webcom-components/visio-sample/dev-status.svg)](https://david-dm.org/webcom-components/visio-sample#info=devDependencies)
 
-Web application with 
-- Share Audio/video 
+Web application with
+- Share Audio/video
 - presence
 - invitations
 - room with multiple participants
 
 Implemented with :
+- [Reach](https://github.com/webcom-components/reach)
 - [React](https://facebook.github.io/react/)
 - [Redux](http://redux.js.org/)
 - [React router](https://github.com/rackt/react-router)
@@ -38,17 +39,17 @@ npm run
 
 To only build visio sample in ./dist folder
 
-*visiowebrtc* is on https://webcom.orange.com
+*visioreach* is on https://io.dataysnc.orange.com
 
 ```bash
 npm run build
 ```
 
 Optional env variables :
-- NAMESPACE : namespace for signalisation. Default is *visiowebrtc*
-- WS_SERVER : webcom server url. Default is *https://webcom.orange.com*
+- NAMESPACE : namespace for signalisation. Default is *visioreach*
+- WS_SERVER : webcom server url. Default is *https://io.datasync.orange.com*
 - PUBLIC_PATH : relative path of application. Default is /
-	
+
 ## Build and watch out visio sample
 
 To build and launch a web server on port 8080
@@ -58,12 +59,12 @@ npm run serve
 ```
 
 Optional env variables :
-- NAMESPACE : namespace for signalisation. Default is *visiowebrtc*
-- WS_SERVER : webcom server url. Default is *https://webcom.orange.com*
+- NAMESPACE : namespace for signalisation. Default is *visioreach*
+- WS_SERVER : webcom server url. Default is *https://io.datasync.orange.com*
 - PUBLIC_PATH : relative path of application. Default is /
 
 
-## Dev server 
+## Dev server
 
 To build and launch a dev web server on port 8080
 
@@ -72,8 +73,8 @@ npm start
 ```
 
 Optional env variables :
-- NAMESPACE : namespace for signalisation. Default is *visiowebrtc*
-- WS_SERVER : webcom server url. Default is *https://webcom.orange.com*
+- NAMESPACE : namespace for signalisation. Default is *visioreach*
+- WS_SERVER : webcom server url. Default is *https://io.datasync.orange.com*
 - PUBLIC_PATH : relative path of application. Default is /
 
 ## Test
@@ -82,7 +83,7 @@ Optional env variables :
 npm test
 ```
 
-With coverage 
+With coverage
 
 ```bash
 npm run test:coverage

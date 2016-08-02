@@ -1,5 +1,3 @@
-/* global Reach, $ */
-
 require('../style.less');
 
 import React from 'react';
@@ -9,5 +7,5 @@ import history from './history';
 
 ReactDom.render(
 	<Root history={history} />,
-	document.getElementById('root')
+	document.querySelector('#root')
 );

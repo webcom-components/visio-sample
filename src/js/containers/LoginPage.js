@@ -1,13 +1,13 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Login from '../components/login';
-import * as reachActions from '../actions/reach';
+import LoginForm from '../components/LoginForm';
+import * as userActions from '../actions/user';
 import {reduxForm} from 'redux-form';
 
-const LoginForm = reduxForm({
+const _form = reduxForm({
 	form: 'login',            // the name of your form and the key to where your form's state will be mounted
-	fields: ['username'] // a list of all your fields in your form
-})(Login);
+	fields: ['email', 'password', 'username'] // a list of all your fields in your form
+})(LoginForm);
 
 
 function mapStateToProps() {
@@ -15,7 +15,7 @@ function mapStateToProps() {
 }
 
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators(reachActions, dispatch);
+	return bindActionCreators(userActions, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(_form);

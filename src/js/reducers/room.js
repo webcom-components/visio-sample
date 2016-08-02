@@ -1,8 +1,10 @@
+/*eslint complexity: [2, 20] max-len: [2, 180]*/
 import {
 	STREAM_PUBLISHED,
 	STREAM_SUBSCRIBED,
 	STREAM_RECEIVED,
 	STREAM_UNPUBLISHED,
+	STREAM_CHANGED,
 	VIDEO_MUTED,
 	VIDEO_UNMUTED,
 	AUDIO_MUTED,
@@ -14,157 +16,117 @@ import {
 	VIDEO_FOCUS,
 	TOGGLE_CHAT,
 	MESSAGE_RECEIVED,
-	MESSAGE_SENT
-} from '../actions/room';
-
-
-import { INVITATION_ANSWERED, LOGOUT } from '../actions/reach';
+	LOGOUT
+} from '../utils/constants';
 
 const initialState = null;
 
-export default function room(state = initialState, action = {}) {
+export default (state = initialState, action = {}) => {
 	switch (action.type) {
-	case ROOM_ENTER:
-		return {
-			name: action.data.name,
-			owner: action.data.owner,
-			focus: 'localVideo',
-			chatMinimized: true,
-			messages: [],
-			users: []
-		};
-	case PARTICIPANT_JOIN:
-		return {
-			...state,
-			users:
-				state.users.find(u => u.name === action.data) ?
-					[...state.users] :
-					[
-						...state.users,
-						{ name: action.data }
-					]
-		};
-	case PARTICIPANT_LEFT:
-		return {
-			...state,
-			users: state.users.filter(u => u.name !== action.data)
-		};
+		case ROOM_ENTER:
+			return {
+				...state,
+				info: {...action.data},
+				focus: null,
+				chatMinimized: true,
+				messages: [],
+				participants: []
+			};
+		case PARTICIPANT_JOIN:
+			return {
+				...state,
+				participants:
+					state.participants.find(u => u.uid === action.data.uid) ?
+						state.participants.map(u=> u.uid === action.data.uid ? {...u, ...action.data} : u) :
+						[
+							...state.participants,
+							{...action.data}
+						]
+			};
+		case PARTICIPANT_LEFT:
+			return {
+				...state,
+				participants: state.participants.filter(u => u.uid !== action.data.uid)
+			};
 
-	case STREAM_PUBLISHED:
-		return {
-			...state,
-			users:
-				state.users.find(u => u.name === action.data.username) ?
-					state.users.map((u) => {
-						return u.name === action.data.username ?
-							Object.assign({}, u, {
-								streamId : action.data.streamId,
-								subscribed: true
-							}) : u;
-					}):
-					[
-						...state.users,
-						{
-							name: action.data.username,
-							subscribed : true,
-							streamId: action.data.streamId
-						}
-					]
+		case STREAM_PUBLISHED:
+			return {
+				...state,
+				stream: {...action.data},
+				participants: state.participants.map(u => {
+					return u.uid === action.data.from ? Object.assign({}, u, {stream : {...action.data}, subscribed: true}) : u;
+				})
+			};
 
-			//localStreamId: action.data
-		};
-	case STREAM_RECEIVED:
-		return {
-			...state,
-			users:
-				state.users.find(u => u.name === action.data.username) ?
-					state.users.map((u) => {
-						return u.name === action.data.username ?
-							Object.assign({}, u, {
-								streamData : action.data.streamData,
-								subscribed : false,
-								streamId: action.data.streamId
-							}) : u;
-					}):
-					[
-						...state.users,
-						{
-							name: action.data.username,
-							streamData : action.data.streamData,
-							subscribed : false,
-							streamId: action.data.streamId
-						}
-					]
-		};
-	case STREAM_SUBSCRIBED:
-		return {
-			...state,
-			users:
-				state.users.map((u) => {
-					return u.name === action.data.username ?
-						Object.assign({}, u, {
-							subscribed : true
-						}) : u;
-				})
-		};
-	case STREAM_UNPUBLISHED:
-		return {
-			...state,
-			users:
-				state.users.map((u) => {
-					return u.streamId === action.data ?
-						{ name: u.name } : u;
-				})
-		};
-	case VIDEO_MUTED:
-		return {
-			...state,
-			localVideoMuted: true
-		};
-	case VIDEO_UNMUTED:
-		return {
-			...state,
-			localVideoMuted: false
-		};
-	case AUDIO_MUTED:
-		return {
-			...state,
-			localAudioMuted: true
-		};
-	case AUDIO_UNMUTED:
-		return {
-			...state,
-			localAudioMuted: false
-		};
-	case ROOM_LEFT:
-		return {
-			...initialState
-		};
-	case LOGOUT:
-		return {
-			...initialState
-		};
-	case VIDEO_FOCUS:
-		return {
-			...state,
-			focus: action.data
-		};
-	case TOGGLE_CHAT:
-		return {
-			...state,
-			chatMinimized: !state.chatMinimized
-		};
-	case MESSAGE_RECEIVED:
-		return {
-			...state,
-			messages: [
-				...state.messages,
-				{
-					...action.data
-				}
-			]
-		};
-	default:
-		return state;
+		case STREAM_CHANGED:
+			return {
+				...state,
+				participants:
+					state.participants.map(u => {
+						return u.uid === action.data.from ? Object.assign({}, u, {stream : {...action.data}, subscribed: true}) : u;
+					})
+			};
+
+		case STREAM_RECEIVED:
+			return {
+				...state,
+				participants:
+					state.participants.map((u) => {
+						return u.uid === action.data.from ? Object.assign({}, u, {stream : {...action.data}, subscribed : false}) : u;
+					})
+			};
+
+		case STREAM_SUBSCRIBED:
+			return {
+				...state,
+				participants:
+					state.participants.map(u => u.uid === action.data.from ? Object.assign({}, u, {subscribed : true}) : u)
+			};
+
+		case STREAM_UNPUBLISHED:
+			return {
+				...state,
+				participants:
+					state.participants.map(u => u.uid === action.data.from ? { ...u, stream: null, subscribed: null } : u)
+			};
+
+		case VIDEO_MUTED:
+		case VIDEO_UNMUTED:
+		case AUDIO_MUTED:
+		case AUDIO_UNMUTED:
+			return {
+				...state,
+				stream: action.data.stream
+			};
+		case ROOM_LEFT:
+			return {
+				...initialState
+			};
+		case LOGOUT:
+			return {
+				...initialState
+			};
+		case VIDEO_FOCUS:
+			return {
+				...state,
+				focus: action.data
+			};
+		case TOGGLE_CHAT:
+			return {
+				...state,
+				chatMinimized: !state.chatMinimized
+			};
+		case MESSAGE_RECEIVED:
+			return {
+				...state,
+				messages: [
+					...state.messages,
+					{
+						...action.data
+					}
+				]
+			};
+		default:
+			return state;
 	}
-}
+};

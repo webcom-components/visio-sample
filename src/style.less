@@ -1,123 +1,179 @@
 @import "~bootstrap/less/bootstrap.less";
+@import "~bootstrap-material-design/less/bootstrap-material-design.less";
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
 
-html {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+@body-bg: @gray-lighter;
+
+@video-offset-h: 2em;
+@video-offset-v: 3em;
+@command-offset-h: 2em;
+@command-offset-v: 3em;
+
+.btn-clear {
+  color: @gray-lighter !important;
+  background-color: fade(@brand-primary, 30%) !important;
+  &:hover {
+    background-color: fade(@gray-light, 30%) !important;
+  }
 }
 
-body {
-    background-color: #eee;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    width: 100%;
-    height: 100%;
-}
-
-#root {
-    width: 100%;
-    height: 100%;
-}
-
-.bigLocalVideo {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.panel-clear {
+  background-color: @black;
+  margin: 0;
+  .panel-heading {
+    font-weight: 500;
+    background-color: fade(@brand-primary, 30%) !important;
     position: absolute;
+    width: 100%;
+  }
+  .panel-body {
+    padding: 0;
+  }
 }
 
-.bigRemoteVideo {
-    position:absolute;
+html, body, #root {
+  .size(100%,100%);
+  overflow: hidden;
+}
+
+.video {
+  .transition(~"width ease .3s, height ease .3s");
+  .panel-body {
+    .size(100%, 100%);
+    display: flex;
+    align-items: center;
+    .videoContainer {
+      .size(100%, 100%);
+    }
+  }
+  video {
+    .size(100%, 100%);
+    max-height: 100%;
+    max-width: 100%;
+    display: block;
+  }
+  &:not(.portrait) video {
+    object-fit: cover;
+  }
+  &.big {
+    .size(100%,100%);
+    position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+    .panel-heading {
+      text-align: center;
+      top: 0;
+    }
+  }
 
-.bigRemoteVideo video {
-    object-fit: cover;
-    width:100%;
-    height: 100%;
-}
-
-.videoContainer {
-    z-index: 1;
-    position: absolute;
-    flex-direction: row;
-    width:100%;
-    height: 100%;
-}
-
-.smallLocalVideo {
-    position:absolute;
-    bottom: 2em;
-    left: 2em;
-    object-fit: cover;
+  &.small {
+    width: 150px;
+    min-height: 50px;
+    max-height: 150px;
+    left: @video-offset-h;
     z-index: 2;
-    max-width: 15%;
-    margin-right: 1em;
-    border:1px solid #FF6600;
+    .panel-heading {
+      bottom: 0;
+    }
+    &.local {
+      position: absolute;
+      bottom: @video-offset-v;
+      .panel-heading {
+        background-color: fade(color(@brand-warning), 30%) !important;
+      }
+    }
+    &.remote {
+      position: relative;
+      display: inline-block;
+      top: @video-offset-v;
+      margin: 10px 1px;
+    }
+    &.portrait {
+      max-height: 150px;
+      max-width: 100px;
+    }
+  }
 }
 
-
-
-.smallRemoteVideo {
-    position: relative;
+.status {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  color: @gray-lighter;
+  i {
+    display: none;
+    border-radius: 50%;
+    padding: 4px;
+    margin: 0 1px;
+  }
+  &.muteAudio i:last-child {
     display: inline-block;
-    max-width: 15%;
-    top: 2em;
-    left: 2em;
-    z-index: 1;
-    border: 1px solid #FF6600;
-    margin-right: 1em;
+    background-color: @brand-info;
+  }
+  &.muteVideo i:first-child {
+    display: inline-block;
+    background-color: @brand-success;
+  }
 }
 
-.smallRemoteVideo video {
-    max-width: 100%;
-    max-height: 100%;
+.remoteVideos {
+  z-index: 1;
+  position: absolute;
+  flex-direction: row;
+  .size(100%,100%);
 }
 
-.videoName {
-    position:absolute;
-    bottom: 0;
-    background-color: black;
-    opacity: 0.7;
-    color: #CCC;
-    width: 100%;
-    text-align: center;
-}
-
-.bigRemoteVideo .videoName {
-    top: 0;
-    bottom: auto;
-}
-
-.partipantsPanel {
-    margin-top: 3em;
+.users, .login {
+  margin-top: 3 * @command-offset-v;
 }
 
 .topButtons {
-    position: absolute;
-    right: 2em;
-    top: 2em;
-    z-index: 3;
+  position: absolute;
+  right: @command-offset-h;
+  top: @command-offset-v;
+  z-index: 3;
 }
 
 .cmdButtons {
-    display:flex;
-    flex-direction: column;
-    position: absolute;
-    right: 2em;
-    bottom: 2em;
-    z-index: 2;
-}
-
-.cmdButtons button {
-    margin-bottom: 1em;
+  position: absolute;
+  right: @command-offset-h;
+  bottom: @command-offset-v;
+  z-index: 2;
 }
 
 .logout {
-    position:absolute;
-    top:2em;
-    right:2em;
+  position: absolute;
+  top: @command-offset-h;
+  right: @command-offset-h;
+}
+
+@media (max-width: @screen-sm-min) {
+  .video.big.portrait video {
+    object-fit: cover;
+  }
+}
+
+@media (min-width: @screen-sm-min) {
+  .users, .login {
+    margin-top: @command-offset-v;
+  }
+  .video.small {
+    width: 30%;
+    min-height: 90px;
+    max-height: 30%;
+  }
+  .video.small.portrait {
+    max-height: 200px;
+    max-width: 134px;
+  }
+}
+@media (min-width: @screen-md-min) {
+  .video.small {
+    width: 25%;
+  }
+}
+@media (min-width: @screen-lg-min) {
+  .video.small {
+    width: 15%;
+  }
 }

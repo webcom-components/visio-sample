@@ -15,12 +15,12 @@ const config = {
 			'react-dom',
 			'redux',
 			'redux-simple-router',
-			'imports?exports=>false&module=>false!bootstrapjs',
+			'imports?exports=>false&module=>false!material',
 			'imports?exports=>false&module=>false!webcom',
 			'expose?Reach!reach'
 		],
 		app: './src/js/index.js'
-	}, 
+	},
 	output: {
 		path: path.join(__dirname, './dist'),
 		filename: 'bundle.js',
@@ -32,7 +32,7 @@ const config = {
 		alias: {
 			jquery: 'jquery/dist/jquery.min.js',
 			'react-dom': 'react-dom/dist/react-dom.min.js',
-			'bootstrapjs': 'bootstrap/dist/js/bootstrap.min.js',
+			'material': 'bootstrap-material-design/dist/js/material.min.js',
 			'webcom': 'webcom/webcom.js'
 		}
 	},
@@ -49,6 +49,7 @@ const config = {
 			/react(:?\.min)?\.js$/,
 			/jquery\.min\.js$/,
 			/bootstrap\.min\.js$/,
+			/material\.min\.js$/,
 			/webcom\.js$/
 		]
 	},
@@ -60,13 +61,13 @@ const config = {
 		new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
 		new webpack.DefinePlugin({
 			__WEBCOM_SERVER__: JSON.stringify(process.env.WS_SERVER || 'https://io.datasync.orange.com'),
-			__NAMESPACE__: JSON.stringify(process.env.NAMESPACE || 'visiowebrtc'),
+			__NAMESPACE__: JSON.stringify(process.env.NAMESPACE || 'visioreach'),
 			__DEVTOOLS__: process.env.NODE_ENV !== 'production',
 			'process.env': {
 				NODE_ENV: JSON.stringify(process.env.NODE_ENV)
 			}
 		})
-	],				
+	],
 	progress: true,
 	target: 'web'
 };
