@@ -1,5 +1,3 @@
-/* global Reach */
-
 import history from '../history';
 import {rooms} from '../utils/reach';
 import {reset} from 'redux-form';
@@ -10,6 +8,7 @@ import {
 	MESSAGE_RECEIVED, MESSAGE_SENT,
 	STREAM_UNSUBSCRIBED
 } from '../utils/constants';
+import Reach from 'webcom-reach';
 
 const listenToJoinAndLeave = room => (dispatch, getState) => {
 	rooms.find(room).on(Reach.events.room.PARTICIPANT_ADDED, p => {

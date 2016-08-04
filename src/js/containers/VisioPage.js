@@ -169,16 +169,14 @@ class Visio extends Component {
 	}
 }
 
-function mapStateToProps(state) {
-	return {
-		current: state.current,
-		room: state.room,
-		users: state.users
-	};
-}
+const mapStateToProps = state => ({
+	current: state.current,
+	room: state.room,
+	users: state.users
+});
 
-function mapDispatchToProps(dispatch) {
-	return bindActionCreators({
+const mapDispatchToProps = dispatch => bindActionCreators(
+	{
 		sendMessage: roomActions.sendMessage,
 		toggleChat: roomActions.toggleChat,
 		quitRoom: roomActions.leave,
@@ -190,7 +188,8 @@ function mapDispatchToProps(dispatch) {
 		publishStream: streamActions.publish,
 		listenToStreams: streamActions.listen,
 		sendInvitation: inviteActions.send
-	}, dispatch);
-}
+	},
+	dispatch
+);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Visio);

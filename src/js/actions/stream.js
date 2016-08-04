@@ -1,5 +1,3 @@
-/*global Reach*/
-
 import {
 	AUDIO_UNMUTED, AUDIO_MUTED,
 	VIDEO_UNMUTED, VIDEO_MUTED, VIDEO_FOCUS,
@@ -8,6 +6,7 @@ import {
 	STREAM_RECEIVED, STREAM_SUBSCRIBED, STREAM_UNSUBSCRIBED, STREAM_CHANGED
 } from '../utils/constants';
 import {rooms, streams} from '../utils/reach';
+import Reach from 'webcom-reach';
 
 const _toggle = (streamType, types, stream) => {
 	const _stream = streams.find(stream);

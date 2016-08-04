@@ -11,13 +11,17 @@ const config = {
 		vendor: [
 			'imports?exports=>false&module=>false!jquery',
 			'imports?exports=>false&module=>false!react',
+			'material',
+			'react-bootstrap',
 			'react-router',
+			'react-redux',
 			'react-dom',
 			'redux',
+			'redux-form',
+			'redux-logger',
+			'redux-promise',
 			'redux-simple-router',
-			'imports?exports=>false&module=>false!material',
-			'imports?exports=>false&module=>false!webcom',
-			'expose?Reach!reach'
+			'webcom-reach'
 		],
 		app: './src/js/index.js'
 	},
@@ -32,8 +36,7 @@ const config = {
 		alias: {
 			jquery: 'jquery/dist/jquery.min.js',
 			'react-dom': 'react-dom/dist/react-dom.min.js',
-			'material': 'bootstrap-material-design/dist/js/material.min.js',
-			'webcom': 'webcom/webcom.js'
+			'material': 'bootstrap-material-design/dist/js/material.min.js'
 		}
 	},
 	module: {
@@ -84,7 +87,7 @@ if (process.env.NODE_ENV !== 'production') {
 			'less?sourceMap'
 		]}
 	]);
-	config.resolve.alias.reach = 'webcom-reach/dist/reach-debug.js';
+	config.resolve.alias['webcom-reach'] = 'webcom-reach/dist/reach-debug.js';
 	config.resolve.alias.react = 'react/dist/react.js';
 	config.devtool = 'source-map';
 	config.debug = true;
@@ -101,7 +104,6 @@ if (process.env.NODE_ENV !== 'production') {
 			'css-loader?sourceMap&minimize!less-loader?sourceMap'
 		)}
 	]);
-	config.resolve.alias.reach = 'webcom-reach/dist/reach.js';
 	config.resolve.alias.react = 'react/dist/react.min.js';
 
 	config.devtool = 'source-map';

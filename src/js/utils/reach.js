@@ -1,4 +1,5 @@
-/* global Reach, __WEBCOM_SERVER__, __NAMESPACE__, __DEVTOOLS__ */
+/* global __WEBCOM_SERVER__, __NAMESPACE__, __DEVTOOLS__ */
+import Reach from 'webcom-reach';
 
 let _reach;
 const stores = {};

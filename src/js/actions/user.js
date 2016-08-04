@@ -1,8 +1,8 @@
-/* global Reach */
 import {ADD_USER, UPDATE_USER, LOGGED, LOGOUT} from '../utils/constants';
 import history from '../history';
 import * as Invite from './invite';
 import {ref, users} from '../utils/reach';
+import Reach from 'webcom-reach';
 
 const add = (uid, data) => {
 	users.add(data);
