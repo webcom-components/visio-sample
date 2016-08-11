@@ -96,7 +96,7 @@ const join = room => dispatch => {
 		});
 };
 
-const leave = (user, room) => dispatch => {
+const leave = (user, room, newRoom) => dispatch => {
 	const _room = rooms.find(room);
 	_room.remoteStreams()
 		.then(remoteStreams => {
@@ -123,6 +123,11 @@ const leave = (user, room) => dispatch => {
 					room
 				}
 			});
+		})
+		.then(() => {
+			if(newRoom) {
+				dispatch(join(newRoom));
+			}
 		});
 };
 

@@ -26,9 +26,13 @@ const answered = (accept, invitee, info) => {
 	return (dispatch, getState) => {
 		rooms.add(info.room);
 
-		const alreadyInRoom = getState().room && getState().room.info;
-		if (!alreadyInRoom && accept) {
-			dispatch(roomActions.join(info.room));
+		if(accept && invitee.uid === getState().current.uid) {
+			const roomState = getState().room ? getState().room.info : null;
+			if(!roomState) { // Not in a room
+				dispatch(roomActions.join(info.room));
+			} else if(roomState.uid !== info.room) { //  In another room
+				dispatch(roomActions.leave(getState().current, roomState, info.room));
+			}
 		}
 
 		dispatch({
