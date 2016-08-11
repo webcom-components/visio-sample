@@ -18,7 +18,18 @@ export const ref = () => {
 				],
 				mandatory:{}
 			},
-			constraints = Reach.media.constraints('HD', audioConstraints);
+			constraints = Reach.media.constraints('HD', audioConstraints),
+			iceServers = [
+				{
+					username: 'admin',
+					credential: 'webcom1234',
+					urls: [
+						'turns:turn1.webcom.orange.com:443',
+						'turns:webcom1.orange-labs.fr:443',
+						'turn:turn1.webcom.orange.com:3478'
+					]
+				}
+			];
 
 		// Force framerate
 		constraints.video = Object.assign(constraints.video, {frameRate: {ideal: 10, max: 25}});
@@ -27,7 +38,8 @@ export const ref = () => {
 			logLevel,
 			constraints,
 			preferredAudioCodec,
-			preferredVideoCodec
+			preferredVideoCodec,
+			iceServers
 		});
 	}
 	return _reach;
