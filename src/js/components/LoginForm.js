@@ -8,7 +8,7 @@ import Form from 'react-bootstrap/lib/Form';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-
+import omit from 'lodash/omit';
 
 export default class LoginForm extends Component {
 	static propTypes = {
@@ -33,6 +33,11 @@ export default class LoginForm extends Component {
 
 	render() {
 		const { fields : { email, password, username } } = this.props;
+		// ReduxFrom field props unknown to FormControl (causes warning since React 0.15.2)
+		const unknownProps = [
+			'initialValue', 'autofill', 'onUpdate', 'valid', 'invalid',
+			'dirty', 'pristine', 'active', 'touched', 'visited', 'autofilled'
+		];
 
 		return (
 			<Grid>
@@ -44,21 +49,21 @@ export default class LoginForm extends Component {
 									<ControlLabel>email</ControlLabel>
 									<FormControl
 										type="text"
-										{...email}
+										{...omit(email, unknownProps)}
 									/>
 								</FormGroup>
 								<FormGroup controlId="password" bsClass="form-group label-floating">
 									<ControlLabel>password</ControlLabel>
 									<FormControl
 										type="password"
-										{...password}
+										{...omit(password, unknownProps)}
 									/>
 								</FormGroup>
 								<FormGroup controlId="username" bsClass="form-group label-floating">
 									<ControlLabel>username</ControlLabel>
 									<FormControl
 										type="text"
-										{...username}
+										{...omit(username, unknownProps)}
 									/>
 								</FormGroup>
 								<Button
