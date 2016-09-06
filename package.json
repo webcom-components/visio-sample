@@ -11,6 +11,9 @@
     "test:coverage": "babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- --compilers js:babel-core/register",
     "semantic-release": "semantic-release pre  && semantic-release post"
   },
+  "release": {
+    "getLastRelease": "last-release-git-tag"
+  },
   "keywords": [
     "webcom",
     "webrtc"
@@ -43,6 +46,7 @@
     "html-webpack-plugin": "^2.9.0",
     "imports-loader": "^0.6.5",
     "isparta": "^4.0.0",
+    "last-release-git-tag": "git+https://github.com/RisingStack/last-release-git-tag.git",
     "less": "^2.6.0",
     "less-loader": "^2.2.2",
     "mocha": "^3.0.2",
