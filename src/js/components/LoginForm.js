@@ -8,18 +8,20 @@ import Form from 'react-bootstrap/lib/Form';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import Alert from 'react-bootstrap/lib/Alert';
+
 import omit from 'lodash/omit';
 
 export default class LoginForm extends Component {
 	static propTypes = {
 		login: PropTypes.func.isRequired,
 		resume: PropTypes.func.isRequired,
-		fields: PropTypes.object.isRequired
+		fields: PropTypes.object.isRequired,
+		current: PropTypes.object
 	};
 
 	handleSubmit(e) {
 		e.preventDefault();
-
 		this.props.login(
 			this.props.fields.email.value,
 			this.props.fields.password.value,
@@ -38,12 +40,15 @@ export default class LoginForm extends Component {
 			'initialValue', 'autofill', 'onUpdate', 'valid', 'invalid',
 			'dirty', 'pristine', 'active', 'touched', 'visited', 'autofilled'
 		];
-
+		const error = this.props.current.error ? (
+			<Alert bsStyle="danger"><strong>{this.props.current.error}</strong></Alert>
+		) : '';
 		return (
 			<Grid>
 				<Row>
 					<Col md={6} mdPush={3}>
 						<Panel className="login">
+							{error}
 							<Form>
 								<FormGroup controlId="email" bsClass="form-group label-floating">
 									<ControlLabel>email</ControlLabel>

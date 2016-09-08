@@ -5,6 +5,7 @@
 import {
 	LOGGED,
 	LOGOUT,
+	LOGIN_ERROR,
 	DEVICES_LISTED
 } from '../utils/constants';
 
@@ -18,7 +19,7 @@ export default function user(state = initialState, action = {}) {
 	switch (action.type) {
 		case LOGGED:
 			return {
-				...state,
+				...initialState,
 				logged: true,
 				name: action.data.name,
 				uid: action.data.uid
@@ -27,9 +28,15 @@ export default function user(state = initialState, action = {}) {
 			return {
 				...initialState
 			};
+		case LOGIN_ERROR:
+			return {
+				...state,
+				error: action.data
+			};
 		case DEVICES_LISTED:
 			return {
 				...state,
+				error: null,
 				devices: {
 					video: action.data.videoinput.map(d => ({...d})),
 					audio: action.data.audioinput.map(d => ({...d}))

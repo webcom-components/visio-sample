@@ -10,8 +10,10 @@ const _form = reduxForm({
 })(LoginForm);
 
 
-function mapStateToProps() {
-	return {};
+function mapStateToProps(state) {
+	return {
+		current: state.current
+	};
 }
 
 function mapDispatchToProps(dispatch) {

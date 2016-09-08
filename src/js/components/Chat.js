@@ -33,16 +33,6 @@ export default class Chat extends Component {
 		node.scrollTop = node.scrollHeight;
 	}
 
-	// getMessages() {
-	// 	return (
-	// 		<ul id='messages' ref='messages'>
-	// 			{this.props.messages.map(m => {
-	// 				return <li key={m._created}><span className='username'>{m.name}</span>{m.text}</li>;
-	// 			})}
-	// 		</ul>
-	// 	);
-	// }
-
 	toggle() {
 		this.props.toggleChat();
 	}

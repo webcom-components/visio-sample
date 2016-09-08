@@ -1,4 +1,4 @@
-import {ADD_USER, UPDATE_USER, LOGGED, LOGOUT} from '../utils/constants';
+import {ADD_USER, UPDATE_USER, LOGGED, LOGOUT, LOGIN_ERROR} from '../utils/constants';
 import history from '../history';
 import * as Invite from './invite';
 import {ref, users} from '../utils/reach';
@@ -69,8 +69,14 @@ const login = (email, password, username) => {
 				if(/INVALID_USER/i.test(e.code)) {
 					return _reach.register(email, password, username);
 				}
+				dispatch({
+					type: LOGIN_ERROR,
+					data: e.code
+				});
+				return Promise.reject(e);
 			})
-			.then(_onceLogged(dispatch, getState));
+			.then(_onceLogged(dispatch, getState))
+			.catch(() => {});
 	};
 };
 
