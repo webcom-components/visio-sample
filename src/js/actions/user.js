@@ -1,7 +1,11 @@
-import {ADD_USER, UPDATE_USER, LOGGED, LOGOUT, LOGIN_ERROR} from '../utils/constants';
+import {
+	ADD_USER, UPDATE_USER,
+	LOGGED, LOGOUT, LOGIN_ERROR,
+	ADD_ROOM, UPDATE_ROOM, DELETE_ROOM
+} from '../utils/constants';
 import history from '../history';
 import * as Invite from './invite';
-import {ref, users} from '../utils/reach';
+import {ref, users, rooms} from '../utils/reach';
 import Reach from 'webcom-reach';
 
 const add = (uid, data) => {
@@ -20,7 +24,8 @@ const update = (uid, data) => {
 };
 
 const logout = () => {
-	ref().logout();
+	const reach = ref();
+	reach.logout();
 	history.push('/');
 	return {
 		type: LOGOUT
@@ -48,6 +53,28 @@ const _onceLogged = (dispatch, getState) => currentUser => {
 		if(sender && invite.isOnGoing && invite._created > currentUser.lastSeen) {
 			dispatch(Invite.receive(sender, invite));
 		}
+	});
+
+	const roomDispatch = (event, room) => {
+		const {uid, name, owner, _public, status} = room;
+		if(_public) {
+			dispatch({
+				type: event,
+				data: {uid, name, owner, status}
+			});
+		}
+	};
+
+	reach.on(Reach.events.reach.ROOM_ADDED, room => {
+		rooms.add(room);
+		room.status === 'OPENED' && roomDispatch(ADD_ROOM, room);
+	});
+	reach.on(Reach.events.reach.ROOM_CHANGED, room => {
+		roomDispatch(UPDATE_ROOM, room);
+	});
+	reach.on(Reach.events.reach.ROOM_REMOVED, room => {
+		rooms.remove(room);
+		roomDispatch(DELETE_ROOM, room);
 	});
 };
 

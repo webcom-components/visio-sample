@@ -1,5 +1,5 @@
 import history from '../history';
-import {rooms} from '../utils/reach';
+import {rooms, ref} from '../utils/reach';
 import {reset} from 'redux-form';
 import {
 	ROOM_ENTER, ROOM_LEFT,
@@ -96,6 +96,29 @@ const join = room => dispatch => {
 		});
 };
 
+const create = (name, joinAfterCreate) => (dispatch, getState) => {
+	ref().createRoom(name, null, true)
+		.then(room => {
+			rooms.add(room);
+			if(joinAfterCreate) {
+				const alreadyInRoom = getState().room && getState().room.info;
+				if (!alreadyInRoom) {
+					dispatch(join(room));
+				}
+			}
+		});
+};
+
+const remove = room => () => {
+	rooms.find(room).close();
+};
+
+const removeAll = _rooms => () => {
+	_rooms.forEach(room => {
+		rooms.find(room).close();
+	});
+};
+
 const leave = (user, room, newRoom) => dispatch => {
 	const _room = rooms.find(room);
 	_room.remoteStreams()
@@ -115,7 +138,7 @@ const leave = (user, room, newRoom) => dispatch => {
 			history.push('/users');
 		})
 		.then(() => {
-			rooms.remove(room);
+			// rooms.remove(room);
 			dispatch({
 				type: ROOM_LEFT,
 				data: {
@@ -133,4 +156,4 @@ const leave = (user, room, newRoom) => dispatch => {
 
 const toggleChat = () => ({type: TOGGLE_CHAT});
 
-export {join, leave, toggleChat, sendMessage};
+export {create, remove, removeAll, join, leave, toggleChat, sendMessage};

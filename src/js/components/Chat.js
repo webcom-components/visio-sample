@@ -5,6 +5,7 @@ import Panel from 'react-bootstrap/lib/Panel';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import ListGroup from 'react-bootstrap/lib/ListGroup';
 import ListGroupItem from 'react-bootstrap/lib/ListGroupItem';
+import omit from 'lodash/omit';
 
 require('!style!css!less!./styles/chat.less');
 
@@ -39,6 +40,10 @@ export default class Chat extends Component {
 
 	render() {
 		const { fields : { message } } = this.props;
+		const unknownProps = [
+			'initialValue', 'autofill', 'onUpdate', 'valid', 'invalid',
+			'dirty', 'pristine', 'active', 'touched', 'visited', 'autofilled'
+		];
 		const _header = (
 			<Button block onClick={this.toggle.bind(this)}>
 				Chat ! {this.props.messages.length ? `(${this.props.messages.length})` : '' }
@@ -48,7 +53,7 @@ export default class Chat extends Component {
 			<FormControl
 				type="text"
 				placeholder="type a message..."
-				{...message}
+				{...omit(message, unknownProps)}
 				onKeyPress={this.send.bind(this)}
 			/>
 		);

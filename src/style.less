@@ -123,8 +123,19 @@ html, body, #root {
   .size(100%,100%);
 }
 
-.users, .login {
-  margin-top: 3 * @command-offset-v;
+.users, .login, .rooms {
+  margin-top: @command-offset-v;
+}
+
+div.list-group-item {
+  a {display: none;}
+  &:hover, &:focus {
+    text-decoration: none;
+    color: #555;
+    background-color: #f5f5f5;
+    cursor: pointer;
+    a {display: inline;}
+  }
 }
 
 .topButtons {
@@ -142,9 +153,11 @@ html, body, #root {
 }
 
 .logout {
-  position: absolute;
-  top: @command-offset-h;
-  right: @command-offset-h;
+  text-align: end;
+  padding: 15px;
+  button {
+    margin-left: 5px !important;
+  }
 }
 
 @media (max-width: @screen-sm-min) {
@@ -154,9 +167,6 @@ html, body, #root {
 }
 
 @media (min-width: @screen-sm-min) {
-  .users, .login {
-    margin-top: @command-offset-v;
-  }
   .video.small {
     width: 30%;
     min-height: 90px;

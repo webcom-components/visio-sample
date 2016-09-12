@@ -28,3 +28,6 @@ export const MESSAGE_RECEIVED = 'MESSAGE_RECEIVED';
 export const MESSAGE_SENT = 'MESSAGE_SENT';
 export const DEVICES_LISTED = 'DEVICES_LISTED';
 export const VIDEO_SWITCH = 'VIDEO_SWITCH';
+export const ADD_ROOM = 'ADD_ROOM';
+export const UPDATE_ROOM = 'UPDATE_ROOM';
+export const DELETE_ROOM = 'DELETE_ROOM';
