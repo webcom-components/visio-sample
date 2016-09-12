@@ -25,9 +25,17 @@ export default class Main extends Component {
 		store: PropTypes.object
 	};
 
+
 	render() {
 		return (
 			<div className='fullScreen'>
+				<a href="https://github.com/webcom-components/visio-sample">
+					<img
+						style={{position: 'absolute', top: 0, left: 0, border: 0}}
+						alt="Fork me on GitHub"
+						src="https://s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png"
+					/>
+				</a>
 				{/* this will render the child routes */}
 				{this.props.children}
 				<ConnectedInvitation />
