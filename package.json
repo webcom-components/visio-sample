@@ -72,7 +72,7 @@
     "redux-devtools": "^3.1.1",
     "redux-devtools-dock-monitor": "^1.1.0",
     "redux-devtools-log-monitor": "^1.0.4",
-    "redux-form": "^5.3.3",
+    "redux-form": "^6.0.5",
     "redux-logger": "^2.6.0",
     "redux-promise": "^0.5.1",
     "redux-simple-router": "^2.0.4",
